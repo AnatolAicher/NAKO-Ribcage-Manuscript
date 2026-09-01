@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PC × radiomics — per-feature browser</title>
+  <style>
+    body { font-family: Inter, Helvetica, Arial, sans-serif; margin: 16px; }
+    h1   { font-size: 16px; margin: 0 0 4px 0; }
+    p    { font-size: 12px; color: #555; margin: 0 0 12px 0; }
+    label { font-size: 13px; margin-right: 8px; }
+    select { font-size: 13px; padding: 2px 6px; }
+    iframe { display: block; width: 100%; height: 86vh; border: 1px solid #ddd;
+              margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>PC × radiomics — per-feature browser</h1>
+  <p>Pick a radiomics feature to view its rib × PC heatmap.</p>
+  <label for="picker">Feature:</label>
+  <select id="picker" onchange="document.getElementById('frame').src = this.value">
+    <option value="Elongation_native.html">Elongation</option>
+    <option value="Flatness_native.html">Flatness</option>
+    <option value="LeastAxis_native.html">LeastAxis</option>
+    <option value="MajorAxis_native.html">MajorAxis</option>
+    <option value="Max2D-Col_native.html">Max2D-Col</option>
+    <option value="Max2D-Row_native.html">Max2D-Row</option>
+    <option value="Max2D-Slc_native.html">Max2D-Slc</option>
+    <option value="Max3D_native.html">Max3D</option>
+    <option value="MeshVolume_native.html">MeshVolume</option>
+    <option value="MinorAxis_native.html">MinorAxis</option>
+    <option value="Sphericity_native.html">Sphericity</option>
+    <option value="SurfArea_native.html">SurfArea</option>
+    <option value="SVR_native.html">SVR</option>
+    <option value="rib_length_native.html">rib_length</option>
+  </select>
+  <iframe id="frame" src="Elongation_native.html" loading="lazy"></iframe>
+</body>
+</html>

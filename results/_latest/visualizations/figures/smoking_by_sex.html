@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script src="../../../../site_libs/vega-embed/vega-embed-1d50016d5991.js"></script>
+</head>
+<body>
+<div class="vega-visualization" id="vis"></div>
+<script type="text/javascript">
+  const spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-18f201abb203262119c3187ae352abc2"}, "facet": {"column": {"field": "sex", "title": null, "type": "nominal"}}, "spec": {"mark": {"type": "bar"}, "encoding": {"color": {"field": "smoking_status", "legend": {"title": "Smoking"}, "scale": {"domain": ["Never", "Ex-smoker", "Current"], "range": ["#E9F6AB", "#A0703B", "#221F1B"]}, "sort": ["Never", "Ex-smoker", "Current"], "type": "nominal"}, "tooltip": [{"field": "sex", "type": "nominal"}, {"field": "smoking_status", "title": "Smoking", "type": "nominal"}, {"field": "n", "format": ",", "title": "N", "type": "quantitative"}], "x": {"field": "smoking_status", "sort": ["Never", "Ex-smoker", "Current"], "title": null, "type": "nominal"}, "y": {"field": "n", "title": "N patients", "type": "quantitative"}}, "height": 140, "width": 212}, "title": {"text": "Smoking status by sex", "anchor": "start", "fontSize": 12.0, "offset": 6, "subtitle": "Included cohort (n = 26,291)", "subtitleFontSize": 9.333333333333334}, "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json", "datasets": {"data-18f201abb203262119c3187ae352abc2": [{"sex": "Male", "smoking_status": "Never", "n": 6916}, {"sex": "Male", "smoking_status": "Ex-smoker", "n": 4969}, {"sex": "Male", "smoking_status": "Current", "n": 2854}, {"sex": "Female", "smoking_status": "Never", "n": 6306}, {"sex": "Female", "smoking_status": "Ex-smoker", "n": 3168}, {"sex": "Female", "smoking_status": "Current", "n": 2078}]}};
+  const embedOpt = {"actions": {"export": true, "source": false, "compiled": false, "editor": false}, "scaleFactor": 6.25, "mode": "vega-lite"};
+  vegaEmbed('#vis', spec, embedOpt).catch(console.error);
+</script>
+</body>
+</html>

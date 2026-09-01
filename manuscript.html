@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Anatol Aicher">
+<meta name="author" content="Robert Graf">
+<meta name="author" content="Jan Kirschke">
+<meta name="author" content="Thomas Frauenfelder">
+<meta name="author" content="Falko Ensle">
+<meta name="author" content="Bjoern Menze">
+<meta name="author" content="Josua Decker">
+<meta name="author" content="Thomas Kröncke">
+<meta name="author" content="Johannes Haubold">
+<meta name="author" content="Steffen Ringhof">
+<meta name="author" content="Fabian Bamberg">
+<meta name="author" content="Carsten Oliver Schmidt">
+<meta name="author" content="Mark Wielpütz">
+<meta name="author" content="Michael Leitzmann">
+<meta name="author" content="Stefan N. Willich">
+<meta name="author" content="Thomas Keil">
+<meta name="author" content="Thoralf Niendorf">
+<meta name="author" content="Tobias Pischon">
+<meta name="author" content="Christopher Schlett">
+<meta name="author" content="Hendrik Möller">
+<meta name="dcterms.date" content="2026-09-01">
+<meta name="keywords" content="rib cage, SSM, statistical shape model, NAKO, Scalismo, GPA, generalized procrustes analysis, PCA, principal component analysis, adiposity, smoking, sex, age">
+
+<title>How Sex, Age, Adiposity, and Smoking Shape the Human Rib Cage: Evidence from 26,275 Whole-Body MRIs across the German National Cohort (NAKO) – NAKO Ribcage SSM</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">NAKO Ribcage SSM</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./manuscript.html" aria-current="page"> 
+<span class="menu-text">Manuscript</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./supplement.html"> 
+<span class="menu-text">Supplement</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./viewer.html"> 
+<span class="menu-text">SSM Viewer</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./data.html"> 
+<span class="menu-text">Data &amp; Code</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./references.html"> 
+<span class="menu-text">References</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/AnatolAicher/NAKO-Ribcage-SSM"> <i class="bi bi-github" role="img" aria-label="Source code on GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">2</span> Methods</a>
+  <ul class="collapse">
+  <li><a href="#study-population-and-imaging" id="toc-study-population-and-imaging" class="nav-link" data-scroll-target="#study-population-and-imaging"><span class="header-section-number">2.1</span> Study population and imaging</a></li>
+  <li><a href="#rib-segmentation" id="toc-rib-segmentation" class="nav-link" data-scroll-target="#rib-segmentation"><span class="header-section-number">2.2</span> Rib segmentation</a></li>
+  <li><a href="#per-rib-mesh-extraction" id="toc-per-rib-mesh-extraction" class="nav-link" data-scroll-target="#per-rib-mesh-extraction"><span class="header-section-number">2.3</span> Per-rib mesh extraction</a></li>
+  <li><a href="#per-rib-centerline-extraction" id="toc-per-rib-centerline-extraction" class="nav-link" data-scroll-target="#per-rib-centerline-extraction"><span class="header-section-number">2.4</span> Per-rib centerline extraction</a></li>
+  <li><a href="#cohort-definition-and-quality-control" id="toc-cohort-definition-and-quality-control" class="nav-link" data-scroll-target="#cohort-definition-and-quality-control"><span class="header-section-number">2.5</span> Cohort definition and quality control</a></li>
+  <li><a href="#per-rib-shape-descriptors" id="toc-per-rib-shape-descriptors" class="nav-link" data-scroll-target="#per-rib-shape-descriptors"><span class="header-section-number">2.6</span> Per-rib shape descriptors</a></li>
+  <li><a href="#statistical-shape-model" id="toc-statistical-shape-model" class="nav-link" data-scroll-target="#statistical-shape-model"><span class="header-section-number">2.7</span> Statistical shape model</a>
+  <ul class="collapse">
+  <li><a href="#template-selection" id="toc-template-selection" class="nav-link" data-scroll-target="#template-selection"><span class="header-section-number">2.7.1</span> Template selection</a></li>
+  <li><a href="#mesh-to-template-registration" id="toc-mesh-to-template-registration" class="nav-link" data-scroll-target="#mesh-to-template-registration"><span class="header-section-number">2.7.2</span> Mesh-to-template registration</a></li>
+  <li><a href="#generalized-procrustes-analysis-and-principal-component-analysis" id="toc-generalized-procrustes-analysis-and-principal-component-analysis" class="nav-link" data-scroll-target="#generalized-procrustes-analysis-and-principal-component-analysis"><span class="header-section-number">2.7.3</span> Generalized Procrustes Analysis and principal component analysis</a></li>
+  </ul></li>
+  <li><a href="#association-analyses" id="toc-association-analyses" class="nav-link" data-scroll-target="#association-analyses"><span class="header-section-number">2.8</span> Association analyses</a>
+  <ul class="collapse">
+  <li><a href="#sec-unadjusted-analyses" id="toc-sec-unadjusted-analyses" class="nav-link" data-scroll-target="#sec-unadjusted-analyses"><span class="header-section-number">2.8.1</span> Unadjusted (marginal) associations</a></li>
+  <li><a href="#sec-adjusted-analyses" id="toc-sec-adjusted-analyses" class="nav-link" data-scroll-target="#sec-adjusted-analyses"><span class="header-section-number">2.8.2</span> Adjusted (multivariable) associations</a></li>
+  <li><a href="#sec-targeted-analyses" id="toc-sec-targeted-analyses" class="nav-link" data-scroll-target="#sec-targeted-analyses"><span class="header-section-number">2.8.3</span> Targeted causal models</a></li>
+  <li><a href="#sec-shape-mode-radiomics" id="toc-sec-shape-mode-radiomics" class="nav-link" data-scroll-target="#sec-shape-mode-radiomics"><span class="header-section-number">2.8.4</span> Shape-mode interpretation via radiomics descriptors</a></li>
+  <li><a href="#multiple-comparison-correction" id="toc-multiple-comparison-correction" class="nav-link" data-scroll-target="#multiple-comparison-correction"><span class="header-section-number">2.8.5</span> Multiple-comparison correction</a></li>
+  <li><a href="#sec-geometry-generator" id="toc-sec-geometry-generator" class="nav-link" data-scroll-target="#sec-geometry-generator"><span class="header-section-number">2.8.6</span> Geometry prediction model</a></li>
+  </ul></li>
+  <li><a href="#shape-model-quality-assessment" id="toc-shape-model-quality-assessment" class="nav-link" data-scroll-target="#shape-model-quality-assessment"><span class="header-section-number">2.9</span> Shape-model quality assessment</a></li>
+  <li><a href="#software-and-reproducibility" id="toc-software-and-reproducibility" class="nav-link" data-scroll-target="#software-and-reproducibility"><span class="header-section-number">2.10</span> Software and reproducibility</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">3</span> Results</a>
+  <ul class="collapse">
+  <li><a href="#cohort-segmentation-yield-exclusions" id="toc-cohort-segmentation-yield-exclusions" class="nav-link" data-scroll-target="#cohort-segmentation-yield-exclusions"><span class="header-section-number">3.1</span> Cohort, segmentation yield, exclusions</a></li>
+  <li><a href="#principal-modes-of-shape-variation" id="toc-principal-modes-of-shape-variation" class="nav-link" data-scroll-target="#principal-modes-of-shape-variation"><span class="header-section-number">3.2</span> Principal modes of shape variation</a></li>
+  <li><a href="#shape-model-fidelity" id="toc-shape-model-fidelity" class="nav-link" data-scroll-target="#shape-model-fidelity"><span class="header-section-number">3.3</span> Shape-model fidelity</a></li>
+  <li><a href="#descriptor-level-associations" id="toc-descriptor-level-associations" class="nav-link" data-scroll-target="#descriptor-level-associations"><span class="header-section-number">3.4</span> Descriptor-level associations</a></li>
+  <li><a href="#pc-score-associations" id="toc-pc-score-associations" class="nav-link" data-scroll-target="#pc-score-associations"><span class="header-section-number">3.5</span> PC-score associations</a></li>
+  <li><a href="#anatomical-interpretation-of-principal-modes" id="toc-anatomical-interpretation-of-principal-modes" class="nav-link" data-scroll-target="#anatomical-interpretation-of-principal-modes"><span class="header-section-number">3.6</span> Anatomical interpretation of principal modes</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">4</span> Discussion</a>
+  <ul class="collapse">
+  <li><a href="#principal-findings" id="toc-principal-findings" class="nav-link" data-scroll-target="#principal-findings"><span class="header-section-number">4.1</span> Principal findings</a></li>
+  <li><a href="#comparison-with-prior-work" id="toc-comparison-with-prior-work" class="nav-link" data-scroll-target="#comparison-with-prior-work"><span class="header-section-number">4.2</span> Comparison with prior work</a></li>
+  <li><a href="#strengths-and-limitations" id="toc-strengths-and-limitations" class="nav-link" data-scroll-target="#strengths-and-limitations"><span class="header-section-number">4.3</span> Strengths and limitations</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">4.4</span> Conclusion</a></li>
+  </ul></li>
+  <li><a href="#data-and-code-availability" id="toc-data-and-code-availability" class="nav-link" data-scroll-target="#data-and-code-availability"><span class="header-section-number">5</span> Data and code availability</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements"><span class="header-section-number">6</span> Acknowledgements</a>
+  <ul class="collapse">
+  <li><a href="#funding" id="toc-funding" class="nav-link" data-scroll-target="#funding"><span class="header-section-number">6.1</span> Funding</a></li>
+  <li><a href="#competing-interests" id="toc-competing-interests" class="nav-link" data-scroll-target="#competing-interests"><span class="header-section-number">6.2</span> Competing Interests</a></li>
+  <li><a href="#contributions" id="toc-contributions" class="nav-link" data-scroll-target="#contributions"><span class="header-section-number">6.3</span> Contributions</a></li>
+  <li><a href="#acknowledgements-1" id="toc-acknowledgements-1" class="nav-link" data-scroll-target="#acknowledgements-1"><span class="header-section-number">6.4</span> Acknowledgements</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">How Sex, Age, Adiposity, and Smoking Shape the Human Rib Cage: Evidence from 26,275 Whole-Body MRIs across the German National Cohort (NAKO)</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Anatol Aicher <a href="mailto:anatol.aicher@uzh.ch" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0009-0001-5554-086X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University Hospital Zurich
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Robert Graf </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Technical University of Munich University Hospital
+          </p>
+        <p class="affiliation">
+            Technical University of Munich (TUM)
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jan Kirschke </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Technical University of Munich University Hospital
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Thomas Frauenfelder </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University Hospital Zurich
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Falko Ensle </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Zurich
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Bjoern Menze </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Zurich
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Josua Decker </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University Hospital Augsburg
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Thomas Kröncke </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University Hospital Augsburg
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Johannes Haubold </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University Hospital Essen
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Steffen Ringhof </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Medical Center – University of Freiburg, Faculty of Medicine
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Fabian Bamberg </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Medical Center – University of Freiburg, Faculty of Medicine
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Carsten Oliver Schmidt </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University Medicine Greifswald
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Mark Wielpütz </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University Medicine Greifswald
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Michael Leitzmann </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Regensburg
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Stefan N. Willich </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Charité - University Medical Center Berlin
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Thomas Keil <a href="https://orcid.org/0000-0002-9108-3360" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Charité - University Medical Center Berlin
+          </p>
+        <p class="affiliation">
+            University of Würzburg
+          </p>
+        <p class="affiliation">
+            Bavarian Health and Food Safety Authority
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Thoralf Niendorf </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Max Delbrück Center for Molecular Medicine in the Helmholtz Association (MDC)
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Tobias Pischon </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Max Delbrück Center for Molecular Medicine in the Helmholtz Association (MDC)
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Christopher Schlett </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Medical Center – University of Freiburg, Faculty of Medicine
+          </p>
+        <p class="affiliation">
+            University Heart Center Freiburg – Bad Krozingen
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Hendrik Möller </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Technical University of Munich University Hospital
+          </p>
+        <p class="affiliation">
+            Technical University of Munich (TUM)
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 1, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    Rib-cage morphology is a determinant of thoracic biomechanics, ventilation, and injury response, yet statistical shape models (SSMs) of the rib cage have relied on small cohorts (~100s of individuals) imaged by clinical computed tomography, which over-represents injury and disease. We constructed a surface-based SSM of the complete 24-rib cage from 26,275 standardised whole-body magnetic resonance imaging (MRI) scans of adults aged 19–74 years from the population-based German National Cohort (NAKO). Ribs were segmented with a deep-learning pipeline (a rib-extended SPINEPS model), reconstructed as per-rib surface meshes, and brought into dense vertex-wise correspondence by Gaussian-process morphable registration in Scalismo; the aligned ensemble was summarised by generalised Procrustes analysis and principal component analysis (PCA). Fourteen per-rib geometric descriptors provided a quantitative cross-walk between the abstract PCA modes and named shape features, and associations with sex, age, body size and composition (including body-fat percentage), and smoking exposure were estimated by multivariable regression with Benjamini–Hochberg false-discovery-rate control. Shape variation was strongly concentrated: 28 modes captured 95% of the total variance, and the first three alone accounted for 69.4% (PC1, 42.6%; PC2, 16.3%; PC3, 10.5%) and admitted consistent anatomical readings – a sexually dimorphic axis (PC1), a slender-versus-stout body-habitus contrast (PC2), and a free-rib-size axis at ribs 11–12 (PC3). The sexes were nearly fully separated along PC1 (Cohen’s d = 2.52). Body mass and body-fat percentage were the dominant modifiable correlates of rib-cage shape, whereas the association with cumulative smoking exposure was comparatively small. The model is released as a population-representative geometric reference for benchmarking and morphing donor-derived finite-element human-body models and for further large-cohort shape analysis.
+  </div>
+</div>
+
+<div>
+  <div class="keywords">
+    <div class="block-title">Keywords</div>
+    <p>rib cage, SSM, statistical shape model, NAKO, Scalismo, GPA, generalized procrustes analysis, PCA, principal component analysis, adiposity, smoking, sex, age</p>
+  </div>
+</div>
+
+</header>
+
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>Rib cage morphology is an important determinant of thoracic biomechanics and physiology, with implications for trauma, pulmonary medicine, and spinal biomechanics, making it a subject of longstanding interest in anatomy, anthropology, and biomechanics.</p>
+<p>In injury biomechanics, rib fractures are the most common skeletal thoracic injury in blunt chest trauma <span class="citation" data-cites="Liebsch2019">[<a href="#ref-Liebsch2019" role="doc-biblioref">1</a>]</span> and a common chest-injury category in nationwide trauma registries <span class="citation" data-cites="Peek2020TSACO Peek2020EJTES">[<a href="#ref-Peek2020TSACO" role="doc-biblioref">2</a>,<a href="#ref-Peek2020EJTES" role="doc-biblioref">3</a>]</span>. The finite element human body models that underpin vehicle-safety development (such as THUMS, GHBMC, and related platforms) <span class="citation" data-cites="Iwamoto2015 Vavalle2013">[<a href="#ref-Iwamoto2015" role="doc-biblioref">4</a>,<a href="#ref-Vavalle2013" role="doc-biblioref">5</a>]</span> represent rib geometry in detail because shape features govern fracture prediction <span class="citation" data-cites="Iraeus2020 Holcombe2023">[<a href="#ref-Iraeus2020" role="doc-biblioref">6</a>,<a href="#ref-Holcombe2023" role="doc-biblioref">7</a>]</span>, yet that geometry is inherited from a small number of donor anatomies <span class="citation" data-cites="Holcombe2020">[<a href="#ref-Holcombe2020" role="doc-biblioref">8</a>]</span>, motivating ongoing efforts toward parametric, morphable model families <span class="citation" data-cites="Wang2016 Larsson2024 Shi2014">[<a href="#ref-Wang2016" role="doc-biblioref">9</a>–<a href="#ref-Shi2014" role="doc-biblioref">11</a>]</span> to better represent a heterogeneous population and their rib cage morphologies <span class="citation" data-cites="Larsson2023">[<a href="#ref-Larsson2023" role="doc-biblioref">12</a>]</span>. In pulmonary medicine, rib cage geometry is a mechanical determinant of ventilation: sex differences in rib inclination are associated with established differences in respiratory function between males and females <span class="citation" data-cites="Bellemare2003">[<a href="#ref-Bellemare2003" role="doc-biblioref">13</a>]</span>; chronic obstructive pulmonary disease produces the characteristic “barrel chest” via chronic hyperinflation that remodels the rib cage <span class="citation" data-cites="Sverzellati2013 Lim2018">[<a href="#ref-Sverzellati2013" role="doc-biblioref">14</a>,<a href="#ref-Lim2018" role="doc-biblioref">15</a>]</span> – in accordance with the classically taught clinical image of barrel chest in smokers; and obesity imposes a restrictive load that scales with central adiposity <span class="citation" data-cites="Wehrmeister2012 Mafort2016">[<a href="#ref-Wehrmeister2012" role="doc-biblioref">16</a>,<a href="#ref-Mafort2016" role="doc-biblioref">17</a>]</span>. Beyond ventilation, the rib cage is a substantial biomechanical stabiliser of the thoracic spine <span class="citation" data-cites="Watkins2005 Liebsch2017 Liebsch2022">[<a href="#ref-Watkins2005" role="doc-biblioref">18</a>–<a href="#ref-Liebsch2022" role="doc-biblioref">20</a>]</span>. Taken together, rib cage morphology is associated with various physiological and clinical determinants, and a well-founded model of rib morphology and its variance within a given population is of great interest.</p>
+<p>Prior population-scale rib geometry studies have characterised rib geometry in approximately 1,000 trauma-CT subjects through low-dimensional parametric models of the centroidal path, enabling efficient regression against age, sex, height, and weight but constraining the shape representation to a pre-specified parametric family <span class="citation" data-cites="Holcombe2016 Holcombe2017">[<a href="#ref-Holcombe2016" role="doc-biblioref">21</a>,<a href="#ref-Holcombe2017" role="doc-biblioref">22</a>]</span>. Surface-based statistical shape models (SSMs) of the full rib cage have remained an order of magnitude smaller still (n = 89 <span class="citation" data-cites="Shi2014">[<a href="#ref-Shi2014" role="doc-biblioref">11</a>]</span>; n = 101 <span class="citation" data-cites="Wang2016">[<a href="#ref-Wang2016" role="doc-biblioref">9</a>]</span>), limited by the cost of manual segmentation and establishing dense correspondence. A recent automated-pipeline study reached a substantially larger cohort (n = 1,719) by replacing manual segmentation with a deep-learning whole-body segmentation tool <span class="citation" data-cites="Robinson2024">[<a href="#ref-Robinson2024" role="doc-biblioref">23</a>]</span>, but characterised rib cage shape using ten scalar geometric measurements (bounding-box height, width and depth; convex-hull area in the axial, sagittal and coronal planes; convex-hull volume; and three sagittal angles for rib 1, rib 7 and the sternum) rather than a surface-correspondence shape model, and deliberately restricted the cohort to ages 25–45 years to remove ageing effects. For the latter study, the authors argued for these scalar measurements over principal component analysis on the grounds of interpretability of the results. Notably, all of these lines of work – parametric centerlines, small-cohort surface SSMs, and large-cohort scalar pipelines alike – have drawn almost exclusively on diagnostic computed tomography acquired in clinical settings, producing samples biased toward acute injury, advanced disease, or other clinical indications for chest imaging, and systematically underrepresenting the asymptomatic adult population.</p>
+<p>We address these gaps by building an SSM of the full rib cage from standardised whole-body magnetic resonance imaging scans from the German National Cohort (NAKO), a population-based prospective cohort that recruited men and women aged 19–74 years across 18 study centers in Germany <span class="citation" data-cites="Peters2022 Rach2025">[<a href="#ref-Peters2022" role="doc-biblioref">24</a>,<a href="#ref-Rach2025" role="doc-biblioref">25</a>]</span>, with whole-body MRI on 3 T scanners in a sub-cohort of approximately 30,000 participants <span class="citation" data-cites="Bamberg2015">[<a href="#ref-Bamberg2015" role="doc-biblioref">26</a>]</span>, of which 26,275 met inclusion and quality-control criteria. Rib segmentations are obtained using an extension of the SPINEPS deep-learning pipeline <span class="citation" data-cites="Moeller2025 Graf2023 Moeller2026">[<a href="#ref-Moeller2025" role="doc-biblioref">27</a>–<a href="#ref-Moeller2026" role="doc-biblioref">29</a>]</span> retrained to include a rib class on NAKO whole-body MRI, and surface shape modelling is performed in Scalismo, an open-source Scala framework for image analysis and shape modelling that implements Gaussian Process Morphable Models <span class="citation" data-cites="Luethi2018">[<a href="#ref-Luethi2018" role="doc-biblioref">30</a>]</span>. We additionally extract fourteen geometric shape features per rib – thirteen PyRadiomics <span class="citation" data-cites="vanGriethuysen2017">[<a href="#ref-vanGriethuysen2017" role="doc-biblioref">31</a>]</span> features as well as rib arc length; this provides a quantitative cross-walk between abstract PC modes and named geometric descriptors, recovering scalar interpretability without discarding the coupled multi-region variation that scalar descriptors do not jointly express. This approach combines the data-driven shape representation of an SSM with a cohort size that exceeds the largest prior studies by more than an order of magnitude, reduces the selection bias inherent to clinical CT cohorts, and broadens the metadata space to include body fat percentage and cumulative smoking exposure.</p>
+<p>The resulting shape model accordingly serves as a detailed, highly parametrised reference for an adult population of predominantly central European ancestry. We use this model to characterise the principal modes of population-level rib cage shape variation and quantify their associations with sex, age, height, weight, body fat percentage, and smoking (ever-smoker status plus cumulative pack-years).</p>
+</section>
+<section id="methods" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Methods</h1>
+<p><a href="#fig-methodology" class="quarto-xref">Fig.&nbsp;1</a> gives a graphical overview of the pipeline applied to one participant. Individual stages are described in the subsections that follow.</p>
+<div id="fig-methodology" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-methodology-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="results/_latest/visualizations/figures/methodology.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Ten-panel pipeline overview from raw MRI through segmentation, mesh extraction, descriptors, mesh-to-template registration, GPA, and PCA."></p>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-methodology-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: <strong>Methodology overview.</strong> One display participant walked through every stage of the pipeline. <strong>(A)</strong> Raw VIBE (Volumetric Interpolated Breath-hold Examination) whole-body MRI (coronal, sagittal, axial). <strong>(B)</strong> Rib segmentation overlaid on the same slices, with one colour gradient per side. <strong>(C)</strong> All 24 per-rib surface meshes after marching-cubes extraction, Taubin smoothing, and quadric-error decimation. <strong>(D)</strong> Per-rib PyRadiomics descriptors for the seventh right rib, tabulated alongside the mesh. <strong>(E)</strong> Participant and template ribs shown in their native scanner frames before alignment. <strong>(F)</strong> After rigid whole-cage Procrustes alignment to the template using 24 per-rib centroids. <strong>(G)</strong> After per-rib principal-frame alignment and similarity + rigid iterative-closest-point matching. <strong>(H)</strong> After non-rigid Gaussian-Process surface fitting in four coarse-to-fine passes. <strong>(I)</strong> Generalized Procrustes Analysis: a representative cohort sample (light grey) with the participant (coloured) in shape space. <strong>(J)</strong> Principal component analysis: the PC1 ±2σ surface deformation envelope plus a sparkline table locating the participant on the first ten PCs of the cohort distribution.
+</figcaption>
+</figure>
+</div>
+<section id="study-population-and-imaging" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="study-population-and-imaging"><span class="header-section-number">2.1</span> Study population and imaging</h2>
+<p>Whole-body magnetic resonance imaging data and accompanying baseline metadata were drawn from the German National Cohort (NAKO), a population-based prospective cohort of approximately 200,000 men and women aged 19–74 years recruited between 2014 and 2019 across 18 study centers in Germany <span class="citation" data-cites="Peters2022 Rach2025">[<a href="#ref-Peters2022" role="doc-biblioref">24</a>,<a href="#ref-Rach2025" role="doc-biblioref">25</a>]</span>. A sub-cohort of approximately 30,000 participants additionally underwent standardised 3 T whole-body MRI <span class="citation" data-cites="Bamberg2015">[<a href="#ref-Bamberg2015" role="doc-biblioref">26</a>]</span>. The present analysis is based on the VIBE MRI sequence acquired within this sub-cohort. Three orthogonal slices of one representative VIBE volume are shown in <a href="#fig-methodology" class="quarto-xref">Fig.&nbsp;1</a> A. After application of the inclusion and quality-control criteria defined below, the post-ingestion cohort comprised 26,291 participants (14,739 male, 11,552 female; age 48.03 ± 12.27 years, range 19–74 years). Baseline characteristics of the analytic cohort are summarised in <a href="#tbl-cohort" class="quarto-xref">Table&nbsp;1</a>.</p>
+<p>The NAKO is performed with the approval of the relevant local ethics committees and in accordance with national law and with the Declaration of Helsinki of 1975 in its current revised version; written informed consent was obtained from all participants. The present analysis used pseudonymised imaging and baseline data provided under the NAKO data-use and transfer regulations.</p>
+<div id="tbl-cohort" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cohort-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Baseline characteristics of the post-ingestion cohort after exclusions, overall and stratified by biological sex. Continuous variables are summarised as mean ± SD or as median [IQR] for right-skewed distributions. Pack-years are reported for ever-smokers only; never-smokers are coded as zero pack-years (see <a href="#cohort-definition-and-quality-control">Cohort definition and quality control</a>). Two-group comparisons use Welch’s t-test for continuous variables and the chi-squared test for categorical variables.
+</figcaption>
+<div aria-describedby="tbl-cohort-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 26%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 3%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Overall</th>
+<th style="text-align: left;">Male</th>
+<th style="text-align: left;">Female</th>
+<th style="text-align: left;">p-value</th>
+<th style="text-align: left;">Note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">26,291</td>
+<td style="text-align: left;">14,739 (56.1%)</td>
+<td style="text-align: left;">11,552 (43.9%)</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age (years)</td>
+<td style="text-align: left;">48.03 ± 12.27</td>
+<td style="text-align: left;">47.75 ± 12.37</td>
+<td style="text-align: left;">48.40 ± 12.13</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">mean ± SD</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Height (cm)</td>
+<td style="text-align: left;">173.20 ± 9.50</td>
+<td style="text-align: left;">179.10 ± 6.98</td>
+<td style="text-align: left;">165.68 ± 6.51</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">mean ± SD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Body mass (kg)</td>
+<td style="text-align: left;">79.78 ± 16.35</td>
+<td style="text-align: left;">86.57 ± 14.31</td>
+<td style="text-align: left;">71.12 ± 14.59</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">mean ± SD</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BMI (kg/m²)</td>
+<td style="text-align: left;">26.52 ± 4.71</td>
+<td style="text-align: left;">26.98 ± 4.15</td>
+<td style="text-align: left;">25.94 ± 5.28</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">mean ± SD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Body fat (%)</td>
+<td style="text-align: left;">29.95 ± 9.06</td>
+<td style="text-align: left;">25.18 ± 6.94</td>
+<td style="text-align: left;">36.02 ± 7.70</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">mean ± SD</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Smoking status</td>
+<td style="text-align: left;">Never: 13,222 (50.3%)<br>Ex-smoker: 8,137 (30.9%)<br>Current: 4,932 (18.8%)</td>
+<td style="text-align: left;">Never: 6,916 (46.9%)<br>Ex-smoker: 4,969 (33.7%)<br>Current: 2,854 (19.4%)</td>
+<td style="text-align: left;">Never: 6,306 (54.6%)<br>Ex-smoker: 3,168 (27.4%)<br>Current: 2,078 (18.0%)</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">n (%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pack-years (ever-smokers)</td>
+<td style="text-align: left;">8.21 [2.10–18.85]</td>
+<td style="text-align: left;">9.45 [2.50–20.70]</td>
+<td style="text-align: left;">6.75 [1.75–16.00]</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">median [IQR], ever-smokers</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="rib-segmentation" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="rib-segmentation"><span class="header-section-number">2.2</span> Rib segmentation</h2>
+<p>To achieve rib segmentation annotations, we trained a nnUNet model on 586 manually created VIBE annotations of the NAKO dataset. We reoriented them consistently and left the resolution untouched since it is already consistent across the data. We employed horizontal flipping (x2) and elastic deformation (x3) to increase the data by a factor of 6. We trained on the inphase, outphase, and water sequences of the VIBE images, resulting in roughly 10,000 training images. The model was trained for binary semantic segmentation, i.e., every voxel belonging to a rib has the same class label. We trained with the proposed parameters from nnUNet, other than setting the patch size to a cubic 192 voxels, using the large Residual Encoder Unet architecture (denoted nnUNetResEncUNetLPlans), and their heavy data augmentation strategy denoted DA5. We trained for 1000 epochs.</p>
+</section>
+<section id="per-rib-mesh-extraction" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="per-rib-mesh-extraction"><span class="header-section-number">2.3</span> Per-rib mesh extraction</h2>
+<p>For each participant the segmentation volume was reoriented to canonical right-anterior-superior (RAS) orientation, and each of the rib labels was extracted. A three-dimensional connected-component analysis on the binary rib mask was used to separate the left and right rib at every level. The two components were assigned to anatomical sides by their centroid along the left–right axis; levels yielding a single component were assigned by comparison against the median per-side centroids of the same participant’s other levels, and levels yielding more than two components were reduced to the two largest. Per-side masks of fewer than 10 foreground voxels were discarded at mesh extraction. All such cases were recorded in a per-participant audit, and participant-level inclusion was decided downstream based on the count of valid rib-side meshes (see <a href="#cohort-definition-and-quality-control">Cohort definition and quality control</a>). A triangulated surface mesh was extracted from each binary rib mask by the marching-cubes algorithm at iso-value 0.5, with voxel spacing supplied so that the output vertex coordinates were in millimetres. Voxel-grid stair-stepping was attenuated by 40 iterations of Taubin smoothing (pass-band 0.1), which we used to avoid the volume loss of pure Laplacian filtering, and each mesh was decimated by quadric-error metric to a fixed budget of 1,000 triangular faces. This procedure yielded, for every participant, all individual rib surfaces at a uniform face count, written to STL files. The 24 per-rib meshes for one participant are shown in <a href="#fig-methodology" class="quarto-xref">Fig.&nbsp;1</a> C.</p>
+</section>
+<section id="per-rib-centerline-extraction" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="per-rib-centerline-extraction"><span class="header-section-number">2.4</span> Per-rib centerline extraction</h2>
+<p>To measure individual ribs, we utilized the open-source strategy depicted in <span class="citation" data-cites="Moeller2026">[<a href="#ref-Moeller2026" role="doc-biblioref">29</a>]</span>. In short, we utilized vertebra spine segmentation to assign individual ribs to vertebrae, in order to obtain the info which rib has a rib on one or either side. Furthermore, an iterative algorithm is employed to derive points along the center of the rib from the start to end. Piece-wise linear interpolation is run afterwards to compute the length of a rib. For more details, see their implementation at <a href="https://github.com/Hendrik-code/rib-segmentation" class="uri">https://github.com/Hendrik-code/rib-segmentation</a>.</p>
+</section>
+<section id="cohort-definition-and-quality-control" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="cohort-definition-and-quality-control"><span class="header-section-number">2.5</span> Cohort definition and quality control</h2>
+<p>Per-participant phenotype data were taken from the NAKO baseline assessment and comprised age (years), biological sex, standing height (cm), body mass (kg), body mass index, body fat percentage, self-reported smoking status (never, ex-smoker, current) and cumulative cigarette exposure in pack-years. NAKO sentinel codes were recoded as missing, with the exception that pack-years was set to zero for self-reported never-smokers.</p>
+<p>Participants were excluded from all downstream analyses if (i) the per-rib audit yielded a non-canonical number of valid rib-side meshes (i.e.&nbsp;other than 24 ribs total); (ii) any rib was flagged as touching the imaging field-of-view boundary or as bifurcated – i.e.&nbsp;detected as branching into two components at the proximal or distal end during the extraction audit; or (iii) any required metadata variable was missing. Counts at each exclusion gate are tabulated in the <a href="./supplement.html">Supplement</a>.</p>
+</section>
+<section id="per-rib-shape-descriptors" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="per-rib-shape-descriptors"><span class="header-section-number">2.6</span> Per-rib shape descriptors</h2>
+<p>In parallel to the surface meshes we computed fourteen scalar geometric descriptors per rib using PyRadiomics <span class="citation" data-cites="vanGriethuysen2017">[<a href="#ref-vanGriethuysen2017" role="doc-biblioref">31</a>]</span>, summarised with formal definitions and interpretations in <a href="#tbl-shape-descriptors" class="quarto-xref">Table&nbsp;2</a>. Due to its conceptual redundancy with mesh volume, voxel volume was dropped at the analysis stage, leaving thirteen PyRadiomics features. We additionally derived the rib arc length in millimetres from the per-rib centerline coordinates, yielding a final of fourteen descriptors total as shape variables (13 PyRadiomics + rib length). An example descriptor set for rib 7 R is laid out in <a href="#fig-methodology" class="quarto-xref">Fig.&nbsp;1</a> D. The descriptors furnish a low-dimensional, named representation of each rib that is interpretable independently of the surface-correspondence model; they are used both as direct outcomes in the tabular association analyses and to attach anatomical meaning to the principal modes of the surface shape model in <a href="#sec-shape-mode-radiomics">§2.8.4</a>.</p>
+<div id="tbl-shape-descriptors" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-shape-descriptors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Per-rib shape descriptors used in the analyses. Formal definitions are paraphrased from the PyRadiomics documentation (<a href="https://pyradiomics.readthedocs.io/en/latest/features.html">https://pyradiomics.readthedocs.io/en/latest/features.html</a>, accessed 2026-05-28); the software is described by <span class="citation" data-cites="vanGriethuysen2017">[<a href="#ref-vanGriethuysen2017" role="doc-biblioref">31</a>]</span>. λ_major ≥ λ_minor ≥ λ_least denote the eigenvalues of the ROI’s principal axes obtained by principal-component decomposition. † Extracted but dropped at the analysis stage due to its conceptual redundancy. ‡ Project-derived from the per-rib centerline; not produced by PyRadiomics.
+</figcaption>
+<div aria-describedby="tbl-shape-descriptors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 41%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Descriptor</th>
+<th style="text-align: left;">Formula / definition</th>
+<th style="text-align: left;">Intuitive meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Elongation</td>
+<td style="text-align: left;">√(λ_minor / λ_major)</td>
+<td style="text-align: left;">1 → not elongated; 0 → highly elongated; PyRadiomics convention is inverted relative to common usage</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Flatness</td>
+<td style="text-align: left;">√(λ_least / λ_major)</td>
+<td style="text-align: left;">1 → spherical; 0 → flat; PyRadiomics convention is inverted relative to common usage</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Least axis length</td>
+<td style="text-align: left;">4 · √λ_least</td>
+<td style="text-align: left;">Shortest axis of the ROI-enclosing ellipsoid (mm)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Major axis length</td>
+<td style="text-align: left;">4 · √λ_major</td>
+<td style="text-align: left;">Longest axis of the ROI-enclosing ellipsoid (mm)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Max 2D diameter (column)</td>
+<td style="text-align: left;">Largest pairwise vertex distance in the row–slice (coronal) plane</td>
+<td style="text-align: left;">Maximum coronal-plane extent (mm)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Max 2D diameter (row)</td>
+<td style="text-align: left;">Largest pairwise vertex distance in the column–slice (sagittal) plane</td>
+<td style="text-align: left;">Maximum sagittal-plane extent (mm)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Max 2D diameter (slice)</td>
+<td style="text-align: left;">Largest pairwise vertex distance in the row–column (axial) plane</td>
+<td style="text-align: left;">Maximum axial-plane extent (mm)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Max 3D diameter</td>
+<td style="text-align: left;">Largest pairwise vertex distance overall (Feret diameter)</td>
+<td style="text-align: left;">Overall longest straight-line distance through the shape (mm)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mesh volume</td>
+<td style="text-align: left;">V = Σ Oa_i · (Ob_i × Oc_i) / 6 over signed tetrahedra spanned by mesh triangles and origin</td>
+<td style="text-align: left;">Volume from the triangulated surface (mm³)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Minor axis length</td>
+<td style="text-align: left;">4 · √λ_minor</td>
+<td style="text-align: left;">Intermediate axis of the ROI-enclosing ellipsoid (mm)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sphericity</td>
+<td style="text-align: left;">∛(36 π V²) / A</td>
+<td style="text-align: left;">1 → perfect sphere; lower → less compact / more irregular</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Surface area</td>
+<td style="text-align: left;">A = Σ ½ ‖ab_i × ac_i‖ over mesh triangles</td>
+<td style="text-align: left;">Surface area from the triangulated mesh (mm²)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Surface-to-volume ratio</td>
+<td style="text-align: left;">A / V</td>
+<td style="text-align: left;">Lower → more sphere-like; higher → thinner / more irregular</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Voxel volume †</td>
+<td style="text-align: left;">Σ V_voxel (foreground voxel count × single-voxel volume)</td>
+<td style="text-align: left;">Voxel-counting volume approximation (mm³)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rib length ‡</td>
+<td style="text-align: left;">Arc length along the per-rib centerline</td>
+<td style="text-align: left;">Curvilinear length of the rib (mm)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="statistical-shape-model" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="statistical-shape-model"><span class="header-section-number">2.7</span> Statistical shape model</h2>
+<section id="template-selection" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="template-selection"><span class="header-section-number">2.7.1</span> Template selection</h3>
+<p>A single participant was designated as the registration template by a centrality-based procedure. From the cohort of participants with a complete standard set of 24 per-rib meshes we drew a random subsample of <span class="math inline">\(n = 500\)</span> participants <span class="math inline">\(\mathcal{S}\)</span>. For each rib identity <span class="math inline">\(r \in \mathcal{R}\)</span> (the 12 levels × 2 sides) and every pair of subsample participants <span class="math inline">\(p, q \in \mathcal{S}\)</span> we computed the symmetric mean closest-point surface distance between their meshes <span class="math inline">\(M\)</span>: <span class="math inline">\(d(M_{p,r}, M_{q,r})\)</span>. The per-rib centrality score of participants <span class="math inline">\(p\)</span> at rib identity <span class="math inline">\(r\)</span> is the mean distance from that rib to all other subsample ribs of the same identity,</p>
+<p><span class="math display">\[c_{p,r} = \frac{1}{n - 1} \sum_{q \in \mathcal{S} \setminus \{p\}} d(M_{p,r}, M_{q,r}),\]</span></p>
+<p>and the aggregate centrality score <span class="math inline">\(C_p = \sum_{r \in \mathcal{R}} c_{p,r}\)</span> sums these per-rib scores across the 24 rib identities. The participant minimising <span class="math inline">\(C_p\)</span>, i.e.&nbsp;the one whose 24 ribs lay, on average across the full thoracic cage, closest to all other subsample participants, was returned as the candidate template.</p>
+<p>The candidate template was then rendered as an interactive three-dimensional viewer of its 24 per-rib meshes and visually inspected by A.A. and H.M. for anatomical typicality and segmentation quality. The first candidate returned by the procedure exhibited a near-bifid morphology for one rib and the procedure was therefore re-run with a different random seed; the resulting second candidate, with anatomically unremarkable morphology across all 24 ribs and no visible segmentation artefacts, was adopted as the template. The chosen identifier is recorded with the model and reused in all downstream registrations.</p>
+</section>
+<section id="mesh-to-template-registration" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="mesh-to-template-registration"><span class="header-section-number">2.7.2</span> Mesh-to-template registration</h3>
+<p>Dense vertex-wise correspondence between every rib of every participant and the corresponding rib of the template was established by a multi-stage registration pipeline built on the Scalismo framework <span class="citation" data-cites="Luethi2018">[<a href="#ref-Luethi2018" role="doc-biblioref">30</a>]</span>. The pipeline proceeds in three stages, illustrated in <a href="#fig-methodology" class="quarto-xref">Fig.&nbsp;1</a> F–H.</p>
+<p>First, a rigid Procrustes alignment of the whole rib cage to the template was performed using the centroid of each of the 24 ribs as a correspondence point; a bilateral-symmetry safeguard reset the rotation to the identity whenever its trace fell below 1 – equivalent to a rotation angle exceeding 90°. Second, each rib’s template counterpart was independently aligned to the target rib by matching principal frames: the template’s two in-plane principal axes were rotated onto the target’s, with each target axis’s sign disambiguated by requiring a positive dot product with the corresponding template axis (well-defined given the prior whole-cage alignment, and constructed so that anatomical orientation is preserved by construction rather than chosen post hoc); the third axis was set as the cross product of the first two to guarantee a right-handed frame. This pose alignment was followed by 30 iterations of similarity (rigid plus uniform scale) iterative closest-point matching with an 80%-trimmed mean criterion and 25 iterations of rigid-only ICP with an 85%-trimmed mean criterion, each with a closed-form per-iteration update – Umeyama’s algorithm <span class="citation" data-cites="Umeyama1991">[<a href="#ref-Umeyama1991" role="doc-biblioref">32</a>]</span> for the similarity case and orthogonal Procrustes <span class="citation" data-cites="Schonemann1966">[<a href="#ref-Schonemann1966" role="doc-biblioref">33</a>]</span> for the rigid case. Third, non-rigid registration was performed by Gaussian Process surface deformation in four coarse-to-fine passes <span class="math inline">\(\pi = 1, \ldots, 4\)</span> with shrinking outer length scales; at each pass the kernel was rebuilt and proposed correspondences <span class="math inline">\((s, t)\)</span> – where <span class="math inline">\(s\)</span> is a sampled vertex of the current deformed reference and <span class="math inline">\(t\)</span> its closest point on the target surface – were retained for the posterior update only when all three of the following held: a closest-point distance threshold <span class="math inline">\(\|t - s\| \leq \tau_d^{(\pi)}\)</span>, exclusion of boundary points on the target, and a surface-normal agreement criterion <span class="math inline">\(\mathbf{n}_s \cdot \mathbf{n}_t \geq \tau_n^{(\pi)}\)</span>, where <span class="math inline">\(\mathbf{n}_s\)</span> and <span class="math inline">\(\mathbf{n}_t\)</span> are the unit surface normals at <span class="math inline">\(s\)</span> and <span class="math inline">\(t\)</span>. Correspondences were generated in the source-to-target direction. The pass-dependent schedule – ICP iterations, observation noise variance, distance and normal thresholds, and the number of sampled reference vertices – is given in <a href="#tbl-gp-schedule" class="quarto-xref">Table&nbsp;3</a>. Finally, the registered template surface was pushed back through the per-rib similarity transform and the inverse whole-cage Procrustes transform so that every output mesh was returned to the participant’s native scanner coordinate frame while preserving template-derived vertex correspondence.</p>
+<div id="tbl-gp-schedule" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-gp-schedule-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Coarse-to-fine non-rigid registration schedule. <span class="math inline">\(D\)</span> denotes the bounding-box diagonal (mm) of the per-rib template mesh. “Vertex samples” is the number of source vertices uniformly sampled from the reference mesh that anchor the GP posterior at each ICP iteration of the pass. Across passes the Gaussian-process outer length-scale additionally shrinks by a factor of 0.8 per pass relative to the pass-1 value (initialised at <span class="math inline">\(\max(D/4,\,30)\)</span> mm); a fixed inner kernel of 25 mm is summed with it to capture local thickness variation.
+</figcaption>
+<div aria-describedby="tbl-gp-schedule-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Pass <span class="math inline">\(\pi\)</span></th>
+<th style="text-align: center;">ICP iters</th>
+<th style="text-align: center;">Noise var. (mm²)</th>
+<th style="text-align: center;"><span class="math inline">\(\tau_d^{(\pi)}\)</span> (mm)</th>
+<th style="text-align: center;">Vertex samples</th>
+<th style="text-align: center;"><span class="math inline">\(\tau_n^{(\pi)}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">5.00</td>
+<td style="text-align: center;"><span class="math inline">\(\max(0.10\,D,\,30)\)</span></td>
+<td style="text-align: center;">1,500</td>
+<td style="text-align: center;">0.30</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;"><span class="math inline">\(\max(0.05\,D,\,15)\)</span></td>
+<td style="text-align: center;">2,500</td>
+<td style="text-align: center;">0.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">0.25</td>
+<td style="text-align: center;"><span class="math inline">\(\max(0.02\,D,\,8)\)</span></td>
+<td style="text-align: center;">4,000</td>
+<td style="text-align: center;">0.60</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">0.05</td>
+<td style="text-align: center;"><span class="math inline">\(\max(0.01\,D,\,4)\)</span></td>
+<td style="text-align: center;">6,000</td>
+<td style="text-align: center;">0.70</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="generalized-procrustes-analysis-and-principal-component-analysis" class="level3" data-number="2.7.3">
+<h3 data-number="2.7.3" class="anchored" data-anchor-id="generalized-procrustes-analysis-and-principal-component-analysis"><span class="header-section-number">2.7.3</span> Generalized Procrustes Analysis and principal component analysis</h3>
+<p>Registered meshes were stacked across participants in a canonical anatomical order (rib 1 left, rib 1 right, …, rib 12 right) into a three-dimensional tensor of shape <span class="math inline">\(N \times P \times 3\)</span>, where <span class="math inline">\(N\)</span> is the number of included participants and <span class="math inline">\(P\)</span> is the total number of correspondence points across the 24 ribs. The ensemble was aligned by Generalized Procrustes Analysis (GPA): each shape was iteratively rotated and translated towards the running ensemble mean using a singular-value-decomposition solution corrected for reflections <span class="citation" data-cites="Gower1975">[<a href="#ref-Gower1975" role="doc-biblioref">34</a>]</span>. Scale was retained, because overall body size is among the explanatory variables of interest. <a href="#fig-methodology" class="quarto-xref">Fig.&nbsp;1</a> I shows the GPA-aligned ensemble with one participant superposed.</p>
+<p>Principal component analysis was applied to the GPA-aligned, mean-centered shape ensemble via a randomised singular value decomposition. The number of retained modes was determined by retaining the smallest number of modes such that cumulative explained variance reached 95%, yielding <span class="math inline">\(K =\)</span> 28 principal modes. Per-participant PC scores were computed by projecting each shape onto the retained basis. <a href="#fig-methodology" class="quarto-xref">Fig.&nbsp;1</a> J shows the PC1 ±2σ surface deformation and the participant’s per-PC score table.</p>
+</section>
+</section>
+<section id="association-analyses" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="association-analyses"><span class="header-section-number">2.8</span> Association analyses</h2>
+<p>We related rib-cage shape to participant metadata through three complementary regression estimands – unadjusted, adjusted, and targeted – each applied to two outcome families: the fourteen per-rib shape descriptors of <a href="#per-rib-shape-descriptors">Methods §2.6</a> and the <span class="math inline">\(K\)</span> principal-component scores of the surface shape model. Descriptor models were fit at the rib level on within-rib <span class="math inline">\(z\)</span>-standardised outcomes – each descriptor centered and scaled to mean 0 and unit standard deviation within each rib position across participants, which absorbs the rib-position level term – with standard errors clustered at the participant level (HC1-style small-sample correction) to account for the within-participant correlation of the 24 rib-sides. Principal-component models treated each participant’s score on a mode as a single outcome and used HC3 heteroscedasticity-robust standard errors. Throughout, sex was encoded as a binary <code>is_female</code> indicator (male reference) and smoking as an <code>ever_smoker</code> indicator together with cumulative pack-years; the three-level smoking-status variable was retained only as the source for <code>ever_smoker</code>. The three estimands are defined below. The targeted causal models (<a href="#sec-targeted-analyses">§2.8.3</a>) are our primary specification; the unadjusted and adjusted models are reported alongside them for reference.</p>
+<section id="sec-unadjusted-analyses" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="sec-unadjusted-analyses"><span class="header-section-number">2.8.1</span> Unadjusted (marginal) associations</h3>
+<p>Each metadata variable was related to each outcome one predictor at a time, capturing the total marginal association. Predictors comprised sex, age, standing height, body mass, body mass index, body fat percentage, ever-smoker status, and pack-years; body mass index enters at this layer only (it is redundant with height and body mass once both are in a model), and pack-years was fit on ever-smokers alone. For every (predictor, outcome) pair we report the raw and standardised slope, the marginal <span class="math inline">\(R^2\)</span>, and the <span class="math inline">\(p\)</span>-value; for the binary sex contrast we additionally report Cohen’s <span class="math inline">\(d\)</span> as a standardised effect size.</p>
+</section>
+<section id="sec-adjusted-analyses" class="level3" data-number="2.8.2">
+<h3 data-number="2.8.2" class="anchored" data-anchor-id="sec-adjusted-analyses"><span class="header-section-number">2.8.2</span> Adjusted (multivariable) associations</h3>
+<p>We fit a single multivariable model on the full analytic cohort entering all seven core predictors simultaneously – sex, age, standing height, body mass, body fat percentage, ever-smoker status, and pack-years. Body mass index was excluded as redundant with height and body mass; never-smokers enter as ever-smoker <span class="math inline">\(= 0\)</span>, pack-years <span class="math inline">\(= 0\)</span>, so the never/ever contrast and the within-smoker dose are carried in one model. For every (predictor, outcome) pair we report the raw and standardised slope and a Frisch–Waugh–Lovell partial <span class="math inline">\(R^2\)</span> quantifying the unique variance share attributable to that predictor net of the rest of the model. Because every coefficient is mutually adjusted, these are associations net of the measured covariates. We note that these are adjusted associations rather than the causal effect of any single predictor (see the “Table 2 fallacy” <span class="citation" data-cites="Westreich2013">[<a href="#ref-Westreich2013" role="doc-biblioref">35</a>]</span>). The targeted models below address this.</p>
+</section>
+<section id="sec-targeted-analyses" class="level3" data-number="2.8.3">
+<h3 data-number="2.8.3" class="anchored" data-anchor-id="sec-targeted-analyses"><span class="header-section-number">2.8.3</span> Targeted causal models</h3>
+<p>Our primary analysis estimates one causal contrast per exposure under an explicit directed acyclic graph (DAG) of the assumed relationships among the metadata variables and rib-cage shape (<a href="#fig-dag" class="quarto-xref">Fig.&nbsp;2</a>). For each exposure we fit a separate model that conditions only on that exposure’s minimal back-door adjustment set, so that each coefficient targets a defined estimand rather than a mutually-adjusted partial association. Sex and age are treated as exogenous, so their effects are estimated as total effects, each adjusted only for the other; height, body fat percentage, ever-smoker status, and pack-years are taken to be influenced by sex and age, so their adjusted associations condition on sex and age; body mass lies downstream of body size and composition, so its adjusted association additionally conditions on height and body fat percentage. Each model was fit to both outcome families under the same standard-error scheme as above (participant-clustered for descriptors, HC3 for principal-component scores), and reported with the raw and standardised slope and the Frisch–Waugh–Lovell partial <span class="math inline">\(R^2\)</span>. The targeted estimates are reported alongside the unadjusted (total marginal) and adjusted (mutually-adjusted) coefficients, so that the movement of an effect across the three specifications exposes its confounding and mediation structure.</p>
+<p>The identification this affords is asymmetric. Because sex and age are exogenous, their total effects remain valid even if unmeasured factors influence the downstream metadata variables, as such a factor would lie on a causal path descending from sex and age rather than on a back-door path. The adjusted associations of the body-composition and smoking exposures, by contrast, assume no unmeasured confounding with rib-cage shape: any unmeasured common cause of, for example, body composition and thoracic shape would open a back-door path that the measured adjustment sets cannot close, so these coefficients should be read as adjusted associations rather than causal effects.</p>
+<div id="fig-dag" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img src="assets/dag.svg" class="img-fluid figure-img" alt="Causal directed acyclic graph for the targeted analysis. Sex and age are exogenous and point to height, body fat, smoking, body mass and rib-cage shape; height and body fat additionally point to body mass; every exposure points to rib-cage shape. A dashed latent node, unmeasured confounders U, is itself caused by sex and age and points to the non-exogenous exposures and to rib-cage shape."></p>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: <strong>Assumed causal structure for the targeted analysis.</strong> Sex and age are exogenous; height, body fat percentage and smoking are children of sex and age; body mass is additionally downstream of height and body fat; every exposure acts on rib-cage shape. Each targeted estimate conditions only on the exposure’s back-door set. Dashed edges mark an unmeasured confounder (U), itself influenced by sex and age, acting on the non-exogenous exposures and on shape: the total effects of sex and age remain identified (U lies on a path descending from them), whereas the body-composition and smoking associations are not point-identified under such confounding.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-shape-mode-radiomics" class="level3" data-number="2.8.4">
+<h3 data-number="2.8.4" class="anchored" data-anchor-id="sec-shape-mode-radiomics"><span class="header-section-number">2.8.4</span> Shape-mode interpretation via radiomics descriptors</h3>
+<p>To attach anatomical meaning to the principal modes of the surface shape model we computed, for every triplet of (PC, rib position, per-rib shape descriptor), a univariate OLS model in which the cohort-z-scored PC score predicted the descriptor at that rib position, and report both native-unit and standardised slopes. Effects were summarised as per-PC heatmaps (24 rib positions × fourteen descriptors) and per-descriptor heatmaps (24 rib positions × <span class="math inline">\(K\)</span> PCs). This analysis provides a quantitative cross-walk between the abstract shape-model basis and named geometric descriptors at every rib.</p>
+</section>
+<section id="multiple-comparison-correction" class="level3" data-number="2.8.5">
+<h3 data-number="2.8.5" class="anchored" data-anchor-id="multiple-comparison-correction"><span class="header-section-number">2.8.5</span> Multiple-comparison correction</h3>
+<p>Each model layer was corrected separately for multiple comparisons by the Benjamini–Hochberg false discovery rate procedure <span class="citation" data-cites="Benjamini1995">[<a href="#ref-Benjamini1995" role="doc-biblioref">36</a>]</span> at a nominal <span class="math inline">\(q\)</span>-value threshold of 0.05: the unadjusted, adjusted, and targeted families on each of the descriptor and principal-component sides, together with the PC × rib × descriptor cross-walk. Correction was applied within each family separately so that adjusted <span class="math inline">\(p\)</span>-values remain interpretable within their grouping.</p>
+</section>
+<section id="sec-geometry-generator" class="level3" data-number="2.8.6">
+<h3 data-number="2.8.6" class="anchored" data-anchor-id="sec-geometry-generator"><span class="header-section-number">2.8.6</span> Geometry prediction model</h3>
+<p>To turn these associations into a generative tool, we additionally fit a model that maps demographics directly to rib-cage geometry. For each retained mode the per-participant PC score was regressed on the seven core predictors (continuous predictors centered at their cohort means) by ordinary least squares, and the resulting coefficient matrix, intercepts, and predictor means were stored as a compact generator bundled with the PCA basis. Given any covariate profile the generator predicts the leading PC scores and reconstructs a full surface as the cohort-mean shape plus those scores projected back through the PCA modes; an interactive version of the generator is available online (<a href="./viewer.html">SSM Viewer</a>). Predictive fidelity was assessed by 10-fold cross-validation over participants: holding out each fold in turn, we fit the generator on the remaining participants, predicted the held-out participants’ PC scores from their covariates alone, reconstructed each surface, and measured its per-vertex distance to that participant’s GPA-aligned shape. We report the mean and 95th-percentile of this demographics-only prediction error (mm), overall and by sex, as a function of the number of reconstructed modes. The error quantifies how much of rib-cage geometry is recoverable from demographics alone; being a prediction measure it carries no false-discovery correction, and it is distinct from the Styner triad (<a href="#shape-model-quality-assessment">§2.9</a>), which characterises the PCA basis rather than its predictability from demographics.</p>
+</section>
+</section>
+<section id="shape-model-quality-assessment" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="shape-model-quality-assessment"><span class="header-section-number">2.9</span> Shape-model quality assessment</h2>
+<p>The fitted shape model was characterised by the three classical SSM quality metrics following Styner et al. <span class="citation" data-cites="Styner2003">[<a href="#ref-Styner2003" role="doc-biblioref">37</a>]</span>. <em>Compactness</em> is the cumulative explained variance as a function of the number of retained modes. <em>Generalisation</em> was estimated by <span class="math inline">\(100\)</span>-fold cross-validation: the cohort was randomly partitioned into 100 disjoint folds and, for each fold, a PCA was refit on the remaining shapes and the held-out shapes projected onto the first <span class="math inline">\(k\)</span> modes and reconstructed; we report the resulting per-vertex root-mean-square reconstruction error averaged over folds, as a function of <span class="math inline">\(k\)</span>. <em>Specificity</em> was estimated by drawing 200 random samples from the Gaussian shape distribution defined by the fitted model and reporting, as a function of <span class="math inline">\(k\)</span>, the mean per-vertex distance from each sample to its nearest training-set neighbour. Each metric was computed both on the whole-cage shape vector and on each rib stack separately, allowing model performance to be localised.</p>
+</section>
+<section id="software-and-reproducibility" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="software-and-reproducibility"><span class="header-section-number">2.10</span> Software and reproducibility</h2>
+<p>The complete pipeline – mesh extraction, descriptor computation, surface registration, statistical shape modelling, association analyses, and figure generation – is implemented in Python (Version 3.13, Python Software Foundation) and Scala (Version 3.3.1, EPFL). Python stages rely on NumPy (Version 2.4.4) <span class="citation" data-cites="Harris2020">[<a href="#ref-Harris2020" role="doc-biblioref">38</a>]</span>, pandas (Version 3.0.2) <span class="citation" data-cites="McKinney2010">[<a href="#ref-McKinney2010" role="doc-biblioref">39</a>]</span>, scikit-learn (Version 1.8.0) <span class="citation" data-cites="Pedregosa2011">[<a href="#ref-Pedregosa2011" role="doc-biblioref">40</a>]</span>, statsmodels (Version 0.14.6) <span class="citation" data-cites="Seabold2010">[<a href="#ref-Seabold2010" role="doc-biblioref">41</a>]</span>, SciPy (Version 1.16.3) <span class="citation" data-cites="Virtanen2020">[<a href="#ref-Virtanen2020" role="doc-biblioref">42</a>]</span>, PyVista (Version 0.47.1) <span class="citation" data-cites="Sullivan2019">[<a href="#ref-Sullivan2019" role="doc-biblioref">43</a>]</span>, Plotly (Version 6.7.0, Plotly Technologies Inc.), and Altair (Version 6.1.0) <span class="citation" data-cites="VanderPlas2018 Satyanarayan2017">[<a href="#ref-VanderPlas2018" role="doc-biblioref">44</a>,<a href="#ref-Satyanarayan2017" role="doc-biblioref">45</a>]</span>; the registration stage is implemented on top of Scalismo (Version 1.0-RC1) <span class="citation" data-cites="Luethi2018">[<a href="#ref-Luethi2018" role="doc-biblioref">30</a>]</span> running on JDK 17 (Oracle Corporation). Full source code, configuration for the canonical run, and the figure bundle reproduced in this manuscript are available at <a href="https://github.com/AnatolAicher/NAKO-Ribcage-SSM" class="uri">https://github.com/AnatolAicher/NAKO-Ribcage-SSM</a>. An interactive version of this manuscript is available at <a href="https://anatolaicher.github.io/NAKO-Ribcage-Manuscript/" class="uri">https://anatolaicher.github.io/NAKO-Ribcage-Manuscript/</a>.</p>
+</section>
+</section>
+<section id="results" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Results</h1>
+<section id="cohort-segmentation-yield-exclusions" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="cohort-segmentation-yield-exclusions"><span class="header-section-number">3.1</span> Cohort, segmentation yield, exclusions</h2>
+<p>Of the 30,218 participants in whom both a complete VIBE rib-segmentation output and the full set of baseline metadata variables were available, 26,275 met all quality-control and registration requirements and entered the analytic cohort used in the SSM-based analyses that follow (<a href="#tbl-exclusions" class="quarto-xref">Table&nbsp;4</a>).</p>
+<div id="tbl-exclusions" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="5">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-exclusions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Exclusion flow for the analytic cohort. Note that exclusions are not mutually exclusive: a participant may fail multiple gates, and the counts at each gate reflect the total number of participants failing that gate regardless of other failures. The final analytic cohort is the subset of participants passing all gates.
+</figcaption>
+<div aria-describedby="tbl-exclusions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 77%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Step</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: left;">%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Joined cohort</td>
+<td style="text-align: right;">30,218</td>
+<td style="text-align: left;">100.0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Excluded – rib-side count outside 24</td>
+<td style="text-align: right;">2,716</td>
+<td style="text-align: left;">9.0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Excluded – missing baseline metadata</td>
+<td style="text-align: right;">1,350</td>
+<td style="text-align: left;">4.5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Excluded – segmentation touching FOV boundary</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">&lt;0.1%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Excluded – bifurcated proximal/distal rib end</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">0.0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Post-ingestion cohort</td>
+<td style="text-align: right;">26,291</td>
+<td style="text-align: left;">87.0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Excluded – incomplete or failed surface registration</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">&lt;0.1%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Analytic cohort</td>
+<td style="text-align: right;">26,275</td>
+<td style="text-align: left;">87.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Ingestion-stage exclusions were dominated by missing baseline metadata and by participants with a rib-count outside of 24. A small residual of participants with sufficient rib coverage failed surface registration.</p>
+<p>27,502 participants (91.0% of the joined participants) yielded the full complement of 24 rib sides; the remainder distribute approximately symmetrically around this mode (full distribution: <a href="./supplement.html#sec-suppl-rib-yield">Supplement S1.1</a>).</p>
+<p>Baseline demographic and anthropometric characteristics are reported on the post-ingestion cohort (n = 26,291) in <a href="#tbl-cohort" class="quarto-xref">Table&nbsp;1</a> (<a href="#study-population-and-imaging">§2.1</a>). The analytic cohort spans the full adult age range (19–74 years), with a slight male predominance.</p>
+<p>Thus, the cohort exceeds the largest prior surface-correspondence SSM of the human rib cage by approximately two orders of magnitude, and is distinguished from prior shape model cohorts assembled from clinical CT <span class="citation" data-cites="Shi2014 Wang2016 Robinson2024">[<a href="#ref-Wang2016" role="doc-biblioref">9</a>,<a href="#ref-Shi2014" role="doc-biblioref">11</a>,<a href="#ref-Robinson2024" role="doc-biblioref">23</a>]</span> and from the trauma-CT centerline study of <span class="citation" data-cites="Holcombe2016">[<a href="#ref-Holcombe2016" role="doc-biblioref">21</a>]</span> in terms of population representativeness.</p>
+</section>
+<section id="principal-modes-of-shape-variation" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="principal-modes-of-shape-variation"><span class="header-section-number">3.2</span> Principal modes of shape variation</h2>
+<p>The GPA-aligned cohort-mean rib cage is shown from three orthogonal viewpoints in <a href="#fig-mean-shape" class="quarto-xref">Fig.&nbsp;3</a> and provides the anatomical reference frame against which all subsequent shape variation is described. All principal-component scores reported in the remainder of the Results section quantify per-participant deviations from this mean shape.</p>
+<div id="fig-mean-shape" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mean-shape-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="results/_latest/ssm_pca/figures/mean_shape_views.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Coronal-anterior, sagittal-right, and axial-superior renderings of the cohort-mean rib cage, with left ribs in blue and right ribs in red."></p>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mean-shape-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: <strong>Cohort-mean rib cage.</strong> Coronal (anterior view), sagittal (right view), and axial (superior view) renderings of the GPA-aligned mean shape; left ribs are shaded blue, right ribs red. The mean is the reference shape from which the principal-component deformations of <a href="#fig-pc-deformations" class="quarto-xref">Fig.&nbsp;4</a> are computed.
+</figcaption>
+</figure>
+</div>
+<p>Retaining the smallest number of modes such that cumulative explained variance reached 95% yielded 28 modes; the leading three modes together account for 69.4% of the total shape variance (PC1: 42.6%; PC2: 16.3%; PC3: 10.5%), with no subsequent mode individually exceeding 5.4%. The corresponding ±2σ surface deformations of the leading modes are shown in <a href="#fig-pc-deformations" class="quarto-xref">Fig.&nbsp;4</a>.</p>
+<div id="fig-pc-deformations" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pc-deformations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/ssm_pca/figures/pc_deformations_surface.html" title="±2σ surface deformations of the leading principal-component modes relative to the mean shape." width="100%" height="640px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pc-deformations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: <strong>Leading principal-component modes.</strong> ±2σ surface deformations of the top modes of cohort rib-cage shape variation, expressed as displacements from the mean shape (<a href="#fig-mean-shape" class="quarto-xref">Fig.&nbsp;3</a>). An interactive viewer with continuous per-PC sliders and metadata controls is available on the <a href="./viewer.html">SSM Viewer</a> page.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="shape-model-fidelity" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="shape-model-fidelity"><span class="header-section-number">3.3</span> Shape-model fidelity</h2>
+<p>The fitted SSM was characterised by the three standard quality metrics of <span class="citation" data-cites="Styner2003">[<a href="#ref-Styner2003" role="doc-biblioref">37</a>]</span> – compactness (cumulative explained variance), generalisation (held-out reconstruction error), and specificity (mean distance from samples drawn from the fitted Gaussian shape distribution to their nearest training-set neighbour) – evaluated for k = 1 to 25 modes on both the whole-cage shape vector and each of the 24 per-rib subspaces (<a href="#fig-styner-triad" class="quarto-xref">Fig.&nbsp;5</a>).</p>
+<div id="fig-styner-triad" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-styner-triad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/ssm_qa_metrics/figures/eval_styner.html" title="Three-panel Styner triad of compactness, generalisation, and specificity as functions of the number of retained PCA modes, for the whole-cage shape vector and each of the 24 per-rib subspaces." width="100%" height="640px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-styner-triad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: <strong>Styner triad of shape-model quality.</strong> Compactness, generalisation (100-fold cross-validation), and specificity (200 random samples from the fitted Gaussian shape distribution) as functions of the number of retained PCA modes. Faint blue lines: each of the 24 per-rib subspaces; solid blue: per-rib median; dashed red: whole-cage shape vector.
+</figcaption>
+</figure>
+</div>
+<p>At k = 25 modes – the upper bound of the evaluation range – the whole-cage SSM achieves a compactness of 94.5%, a generalisation error of 3.29 mm per vertex, and a specificity of 6.92 mm per vertex. The per-rib subspaces reach comparable compactness and reconstruction error in substantially fewer modes than the joint 24-rib shape vector (<a href="#fig-styner-triad" class="quarto-xref">Fig.&nbsp;5</a>), reflecting their lower intrinsic dimensionality.</p>
+<p>Separately, we quantified how much of an individual’s rib-cage geometry is recoverable from demographics alone, using the held-out geometry-prediction model (<a href="#sec-geometry-generator">Methods §2.8.6</a>). Demographics predicted held-out shape to a mean per-vertex error of 8.82 mm (95th percentile 12.90 mm), against a 3.29 mm basis reconstruction error at k = 25. The held-out error changed little with the number of reconstructed modes (8.93 mm at three modes; 8.82 mm at K), and demographic predictive <span class="math inline">\(R^2\)</span> was concentrated in PC1 (0.78) and PC2 (0.62), below 0.10 thereafter. This means that while demographics explain a substantial portion of the total shape variance (approximately 45%), this is concentrated in the two leading body-size modes, and the remaining modes of shape variation are largely unpredictable from demographics alone. A pure demographics-based generator thus produces an “average” shape for the given covariate profile. To capture the whole shape distribution, including the unpredictable modes, the generator can be supplemented with random sampling from the residual shape distribution (the Gaussian defined by the PCA basis and eigenvalues) to produce shapes that are both demographically typical and realistically variable.</p>
+</section>
+<section id="descriptor-level-associations" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="descriptor-level-associations"><span class="header-section-number">3.4</span> Descriptor-level associations</h2>
+<p>Each of the 14 per-rib shape descriptors (<a href="#per-rib-shape-descriptors">Methods §2.6</a>) was related to the seven exposures under the three estimands of <a href="#association-analyses">Methods §2.8</a>, with the targeted causal models as the primary specification. Of the 98 targeted (exposure, descriptor) pairs, 81 reached Benjamini–Hochberg FDR significance (q &lt; 0.05); the largest targeted partial R² values were mesh volume × sex (female) (partial R² = 0.351, β = −0.59); surface area × sex (female) (partial R² = 0.348, β = −0.59); rib length × sex (female) (partial R² = 0.297, β = −0.54). The targeted standardised slopes (Panel A) and Frisch–Waugh–Lovell partial R² (Panel B) are mapped in <a href="#fig-targeted" class="quarto-xref">Fig.&nbsp;6</a>; the adjusted and unadjusted descriptor maps are in the <a href="./supplement.html#sec-suppl-descriptor-assoc">Supplement</a>.</p>
+<p>Overall, sex and height are the strongest shape predictors, both in terms of effect size and determination; smoking is the weakest.</p>
+<div id="fig-targeted" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-targeted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-targeted" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div id="fig-targeted-beta" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-targeted-beta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/adjusted/figures/targeted_heatmap_beta.html" title="Targeted causal (DAG) standardised β heatmap with 14 shape-descriptor rows and 7 predictor columns; diverging colour scale preserves effect direction; FDR-non-significant cells are blank." width="100%" height="640px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-targeted-beta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Panel A – standardised β (targeted).
+</figcaption>
+</figure>
+</div>
+<div id="fig-targeted-r2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-targeted-r2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/adjusted/figures/targeted_heatmap_partial_r2.html" title="Targeted causal (DAG) partial R² heatmap with 14 shape-descriptor rows and 7 predictor columns; sequential colour scale quantifies each exposure's unique-variance contribution under its back-door adjustment set." width="100%" height="640px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-targeted-r2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Panel B – Frisch–Waugh–Lovell partial R² (targeted).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-targeted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: <strong>Targeted causal (DAG) descriptor effect maps.</strong> <strong>(A)</strong> Standardised β per (shape descriptor × exposure) under each exposure’s targeted estimand – a total effect for sex and age, an adjusted association under the back-door set for the other five exposures (<a href="#sec-targeted-analyses">Methods §2.8.3</a>). <strong>(B)</strong> Frisch–Waugh–Lovell partial R² for the same pairs. Both panels are FDR-masked at q ≥ 0.05 (empty cells). Cluster-robust standard errors at the participant level. The adjusted and unadjusted equivalents and the standardised-β forest plot are in the <a href="./supplement.html#sec-suppl-descriptor-assoc">Supplement</a>.
+</figcaption>
+</figure>
+</div>
+<p>The complementary principal-component view, where covariate signal concentrates into a few modes, follows in <a href="#pc-score-associations">§3.5</a>.</p>
+</section>
+<section id="pc-score-associations" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="pc-score-associations"><span class="header-section-number">3.5</span> PC-score associations</h2>
+<p>Per-participant PC scores were regressed on the metadata under the three estimands of <a href="#association-analyses">Methods §2.8</a>, with the targeted causal models as the primary specification; the targeted standardised β across PC1–PC7 are mapped in <a href="#fig-pc-regression-targeted" class="quarto-xref">Fig.&nbsp;7</a>. PC1 is the most strongly explained mode (model R² = 0.78) and PC2 the next (R² = 0.62), with R² below 0.10 from PC3 onward. Sex strongly separated the cohort along PC1 (Cohen’s d = 2.52, female − male; d = 0.37 for PC2), whereas ever-smoker status reaches FDR significance on 21 of the 28 modes, all at small standardised effect sizes.</p>
+<div id="fig-pc-regression-targeted" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pc-regression-targeted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/ssm_pca/figures/pc_regression_targeted.html" title="Heatmap of standardised β coefficients from the per-PC targeted causal (DAG) models against the seven covariates (sex, age, height, body mass, body fat %, ever-smoker, pack-years), shown for the leading seven PCs." width="100%" height="640px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pc-regression-targeted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: <strong>Targeted causal (DAG) associations with the leading principal-component scores.</strong> Standardised β from the per-PC targeted models against the seven exposures (rows) – a total effect for sex and age, an adjusted association for the other five (<a href="#sec-targeted-analyses">Methods §2.8.3</a>) – for PC1–PC7 (columns). Cells are FDR-masked at q ≥ 0.05 (empty). The adjusted β map, the β-vector field, and the per-rib PC loadings are in the <a href="./supplement.html#sec-suppl-pc-assoc">Supplement</a>.
+</figcaption>
+</figure>
+</div>
+<p><a href="#tbl-pc-estimands-pc1" class="quarto-xref">Table&nbsp;5</a>, <a href="#tbl-pc-estimands-pc2" class="quarto-xref">Table&nbsp;6</a> and <a href="#tbl-pc-estimands-pc3" class="quarto-xref">Table&nbsp;7</a> set the targeted coefficient for each exposure beside its unadjusted and adjusted counterparts on PC1 and PC2.</p>
+<div id="tbl-pc-estimands-pc1" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="16">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pc-estimands-pc1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5: Standardised β of each exposure on PC1 under the three estimands. The targeted (DAG) estimate (bold) is the primary specification: a total effect for sex and age, an adjusted association under each remaining exposure’s back-door set.
+</figcaption>
+<div aria-describedby="tbl-pc-estimands-pc1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 19%">
+<col style="width: 17%">
+<col style="width: 24%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Predictor</th>
+<th style="text-align: left;">Unadjusted β</th>
+<th style="text-align: left;">Adjusted β</th>
+<th style="text-align: left;">Targeted β (DAG)</th>
+<th style="text-align: left;">Estimand</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sex (female)</td>
+<td style="text-align: left;">+0.78</td>
+<td style="text-align: left;">+0.34</td>
+<td style="text-align: left;"><strong>+0.78</strong></td>
+<td style="text-align: left;">Total effect</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">-0.07</td>
+<td style="text-align: left;">-0.13</td>
+<td style="text-align: left;"><strong>-0.10</strong></td>
+<td style="text-align: left;">Total effect</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">height</td>
+<td style="text-align: left;">-0.73</td>
+<td style="text-align: left;">-0.23</td>
+<td style="text-align: left;"><strong>-0.42</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">body mass</td>
+<td style="text-align: left;">-0.69</td>
+<td style="text-align: left;">-0.43</td>
+<td style="text-align: left;"><strong>-0.43</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">body fat (%)</td>
+<td style="text-align: left;">+0.29</td>
+<td style="text-align: left;">+0.13</td>
+<td style="text-align: left;"><strong>-0.25</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ever-smoker</td>
+<td style="text-align: left;">-0.12</td>
+<td style="text-align: left;">-0.02</td>
+<td style="text-align: left;"><strong>-0.05</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pack-years</td>
+<td style="text-align: left;">-0.17</td>
+<td style="text-align: left;">-0.03</td>
+<td style="text-align: left;"><strong>-0.06</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-pc-estimands-pc2" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="17">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pc-estimands-pc2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6: Standardised β of each exposure on PC2 under the three estimands (targeted estimate in bold).
+</figcaption>
+<div aria-describedby="tbl-pc-estimands-pc2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 19%">
+<col style="width: 17%">
+<col style="width: 24%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Predictor</th>
+<th style="text-align: left;">Unadjusted β</th>
+<th style="text-align: left;">Adjusted β</th>
+<th style="text-align: left;">Targeted β (DAG)</th>
+<th style="text-align: left;">Estimand</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sex (female)</td>
+<td style="text-align: left;">+0.18</td>
+<td style="text-align: left;">-0.23</td>
+<td style="text-align: left;"><strong>+0.17</strong></td>
+<td style="text-align: left;">Total effect</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">+0.35</td>
+<td style="text-align: left;">+0.10</td>
+<td style="text-align: left;"><strong>+0.35</strong></td>
+<td style="text-align: left;">Total effect</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">height</td>
+<td style="text-align: left;">-0.49</td>
+<td style="text-align: left;">-0.87</td>
+<td style="text-align: left;"><strong>-0.64</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">body mass</td>
+<td style="text-align: left;">+0.23</td>
+<td style="text-align: left;">+0.54</td>
+<td style="text-align: left;"><strong>+0.55</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">body fat (%)</td>
+<td style="text-align: left;">+0.56</td>
+<td style="text-align: left;">+0.10</td>
+<td style="text-align: left;"><strong>+0.63</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ever-smoker</td>
+<td style="text-align: left;">+0.10</td>
+<td style="text-align: left;">+0.03</td>
+<td style="text-align: left;"><strong>+0.09</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pack-years</td>
+<td style="text-align: left;">+0.19</td>
+<td style="text-align: left;">+0.05</td>
+<td style="text-align: left;"><strong>+0.12</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-pc-estimands-pc3" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="18">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pc-estimands-pc3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;7: Standardised β of each exposure on PC3 under the three estimands (targeted estimate in bold).
+</figcaption>
+<div aria-describedby="tbl-pc-estimands-pc3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 19%">
+<col style="width: 17%">
+<col style="width: 24%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Predictor</th>
+<th style="text-align: left;">Unadjusted β</th>
+<th style="text-align: left;">Adjusted β</th>
+<th style="text-align: left;">Targeted β (DAG)</th>
+<th style="text-align: left;">Estimand</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sex (female)</td>
+<td style="text-align: left;">+0.09</td>
+<td style="text-align: left;">-0.04</td>
+<td style="text-align: left;"><strong>+0.09</strong></td>
+<td style="text-align: left;">Total effect</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">-0.08</td>
+<td style="text-align: left;">-0.06</td>
+<td style="text-align: left;"><strong>-0.09</strong></td>
+<td style="text-align: left;">Total effect</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">height</td>
+<td style="text-align: left;">-0.10</td>
+<td style="text-align: left;">+0.02</td>
+<td style="text-align: left;"><strong>-0.11</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">body mass</td>
+<td style="text-align: left;">-0.26</td>
+<td style="text-align: left;">-0.28</td>
+<td style="text-align: left;"><strong>-0.28</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">body fat (%)</td>
+<td style="text-align: left;">-0.11</td>
+<td style="text-align: left;">+0.01</td>
+<td style="text-align: left;"><strong>-0.24</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ever-smoker</td>
+<td style="text-align: left;">-0.04</td>
+<td style="text-align: left;">-0.00</td>
+<td style="text-align: left;"><strong>-0.03</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pack-years</td>
+<td style="text-align: left;">-0.07</td>
+<td style="text-align: left;">-0.02</td>
+<td style="text-align: left;"><strong>-0.04</strong></td>
+<td style="text-align: left;">Adjusted assoc.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Westreich and Greenland <span class="citation" data-cites="Westreich2013">[<a href="#ref-Westreich2013" role="doc-biblioref">35</a>]</span> caution us against the “Table 2 fallacy” of interpreting adjusted associations as causal effects without reference to the underlying DAG and the movement of an effect across unadjusted, adjusted, and targeted specifications. Based on the assumptions laid out in the DAG of <a href="#fig-dag" class="quarto-xref">Fig.&nbsp;2</a>, sex and age are the only exposures whose targeted estimates can be read as total causal effects. Nevertheless, comparing their targeted estimates to the unadjusted and adjusted counterparts is instructive. For sex’s impact on PC1, comparing the various β coefficients implies that a large portion of the effect is mediated by the other metadata variables, notably height, body mass and body fat percentage. Still, even adjusting for these variables, it remains a strong predictor of PC1. PC2, in the meantime, is a more direct body-size and -shape mode, largely independent of sex.</p>
+<p>The near-complete separation of the sexes along PC1 is shown in the targeted pair-plot of <a href="#fig-pc-scores-pairs-sex" class="quarto-xref">Fig.&nbsp;8</a>.</p>
+<div id="fig-pc-scores-pairs-sex" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pc-scores-pairs-sex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/ssm_pca/figures/pc_scores_pairs_dag_sex.html" title="Lower-triangular pair-plot of PC1–PC7 scores coloured by sex under the targeted (DAG) total-effect specification, with diagonal density panels showing strong separation along PC1." width="100%" height="640px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pc-scores-pairs-sex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: <strong>PC score pair-plot stratified by biological sex (targeted).</strong> Lower-triangular scatter of PC1–PC7 scores under the targeted total-effect specification for sex, male (blue) versus female (red); diagonal density panels show the per-PC distribution by sex. The marginal and adjusted companions are in the <a href="./supplement.html#sec-suppl-pc-assoc">Supplement</a>.
+</figcaption>
+</figure>
+</div>
+<p>The same pair-plot construction coloured by each continuous exposure under the targeted specification is shown as a 2×2 grid in <a href="#fig-pc-scores-dag-continuous" class="quarto-xref">Fig.&nbsp;9</a>.</p>
+<div id="fig-pc-scores-dag-continuous" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pc-scores-dag-continuous-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-pcscores-dag-age" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-pcscores-dag-age-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/ssm_pca/figures/pc_scores_pairs_dag_age.html" title="Lower-triangular PC1–PC7 pair-plot with off-diagonal bins coloured by mean age under the targeted specification." width="100%" height="520px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pcscores-dag-age-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) A – age.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-pcscores-dag-height" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-pcscores-dag-height-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/ssm_pca/figures/pc_scores_pairs_dag_height_cm.html" title="Lower-triangular PC1–PC7 pair-plot with off-diagonal bins coloured by mean standing height under the targeted specification." width="100%" height="520px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pcscores-dag-height-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) B – standing height.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-pcscores-dag-weight" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-pcscores-dag-weight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/ssm_pca/figures/pc_scores_pairs_dag_weight_kg.html" title="Lower-triangular PC1–PC7 pair-plot with off-diagonal bins coloured by mean body mass under the targeted specification." width="100%" height="520px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pcscores-dag-weight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) C – body mass.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-pcscores-dag-bodyfat" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-pcscores-dag-bodyfat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/ssm_pca/figures/pc_scores_pairs_dag_body_fat_pct.html" title="Lower-triangular PC1–PC7 pair-plot with off-diagonal bins coloured by mean body-fat percentage under the targeted specification." width="100%" height="520px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pcscores-dag-bodyfat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) D – body-fat %.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pc-scores-dag-continuous-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: <strong>PC score pair-plots by continuous exposure (targeted).</strong> Off-diagonal bins coloured by the mean of each exposure under its targeted estimand: <strong>(A)</strong> age, <strong>(B)</strong> standing height, <strong>(C)</strong> body mass, <strong>(D)</strong> body-fat percentage. Ever-smoker and pack-years are omitted, their effect on the leading modes being negligible (<a href="#fig-pc-regression-targeted" class="quarto-xref">Fig.&nbsp;7</a>).
+</figcaption>
+</figure>
+</div>
+<p>An anatomical reading of the principal modes – which per-rib shape descriptors load on which PC at which level – follows in <a href="#anatomical-interpretation-of-principal-modes">§3.6</a>.</p>
+</section>
+<section id="anatomical-interpretation-of-principal-modes" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="anatomical-interpretation-of-principal-modes"><span class="header-section-number">3.6</span> Anatomical interpretation of principal modes</h2>
+<p>To attach anatomical meaning to the abstract principal modes characterised quantitatively in <a href="#principal-modes-of-shape-variation">§3.2</a> and <a href="#pc-score-associations">§3.5</a>, we cross-walked each PC against the 14 per-rib shape descriptors of <a href="#per-rib-shape-descriptors">Methods §2.6</a>, regressing each (rib position × descriptor) value against the cohort-z-scored PC score and tabulating standardised β coefficients per <a href="#sec-shape-mode-radiomics">Methods §2.8.4</a>. The resulting per-PC anatomical maps for the leading three modes – to be read against the ±2σ surface deformations of <a href="#fig-pc-deformations" class="quarto-xref">Fig.&nbsp;4</a>, with continuous per-PC slider exploration available on the <a href="./viewer.html">SSM Viewer</a> page – are shown in <a href="#fig-pc-anatomy" class="quarto-xref">Fig.&nbsp;10</a>; analogous maps for PC4 through PC28 and the descriptor-anchored companion view are reported in <a href="./supplement.html#sec-suppl-pc-anatomy">Supplement S5</a>.</p>
+<div id="fig-pc-anatomy" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pc-anatomy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-pc-anatomy" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div id="fig-pc-anatomy-pc1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-pc-anatomy-pc1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/radiomics_correlation/figures/per_pc/pc01_std.html" title="Standardised β heatmap of the 14 per-rib shape descriptors against PC1, with rows for each (rib level, side) and columns for each descriptor; FDR-non-significant cells are blank." width="100%" height="640px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pc-anatomy-pc1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Panel A – PC1.
+</figcaption>
+</figure>
+</div>
+<div id="fig-pc-anatomy-pc2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-pc-anatomy-pc2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/radiomics_correlation/figures/per_pc/pc02_std.html" title="Standardised β heatmap of the 14 per-rib shape descriptors against PC2." width="100%" height="640px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pc-anatomy-pc2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Panel B – PC2.
+</figcaption>
+</figure>
+</div>
+<div id="fig-pc-anatomy-pc3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-pc-anatomy-pc3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="results/_latest/radiomics_correlation/figures/per_pc/pc03_std.html" title="Standardised β heatmap of the 14 per-rib shape descriptors against PC3." width="100%" height="640px" loading="lazy" style="border:1px solid #ccc;border-radius:4px;">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pc-anatomy-pc3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Panel C – PC3.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pc-anatomy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: <strong>Per-PC anatomical cross-walk for the leading three modes.</strong> Each panel shows the standardised slope of every (rib position × shape descriptor) pair on the corresponding PC score (cohort-z-scored), rendered as a 24-row × 14-column heatmap; rows index rib positions (rib levels × side) and columns index the per-rib shape descriptors defined in <a href="#per-rib-shape-descriptors">Methods §2.6</a>. Cells are FDR-masked at q ≥ 0.05 (empty). The panels are designed to be read alongside the ±2σ surface deformations of <a href="#fig-pc-deformations" class="quarto-xref">Fig.&nbsp;4</a>: where the deformation moves rib N inward or outward, the corresponding row of this map identifies which descriptors carry that geometric change.
+</figcaption>
+</figure>
+</div>
+<p>PC1 – the mode carrying most of the sex separation observed across PC1–PC7 and the one most strongly predicted by height and body mass – shows a strong positive association with the surface-to-volume ratio (SVR) across most ribs and negative associations with most other descriptors, most strongly with mesh volume, surface area, rib length and major axis (<a href="#fig-pc-anatomy-pc1" class="quarto-xref">Fig.&nbsp;10 (a)</a>). The effect peaks at ribs 8–10, the false but non-floating ribs. Although these descriptor signatures could be read as a uniform size increase, the corresponding ±2σ deformation in <a href="#fig-pc-deformations" class="quarto-xref">Fig.&nbsp;4</a> – or the same mode on the <a href="./viewer.html">SSM Viewer</a> – shows that PC1 is not a pure isotropic scaling: increasing PC1 also widens the cage, makes it more barrel-shaped, opens it anteriorly, and decreases the cranio-caudal inclination of the rib base, similar to the results of <span class="citation" data-cites="Bellemare2003">[<a href="#ref-Bellemare2003" role="doc-biblioref">13</a>]</span>. Overall, the sexual dimorphism of these shape features fits the modes described in <span class="citation" data-cites="Bellemare2003 Holcombe2017 Holcombe2023">[<a href="#ref-Holcombe2023" role="doc-biblioref">7</a>,<a href="#ref-Bellemare2003" role="doc-biblioref">13</a>,<a href="#ref-Holcombe2017" role="doc-biblioref">22</a>]</span>. Qualitatively, PC1 may be interpreted as a sexual-dimorphism axis.</p>
+<p>PC2 – most strongly negatively predicted by height, and positively by body fat percentage and body mass – has its largest negative descriptor associations with Max2D-Col, Max2D-Row, the maximum 2D extents in the coronal and sagittal planes, and mesh volume (<a href="#fig-pc-anatomy-pc2" class="quarto-xref">Fig.&nbsp;10 (b)</a>). The corresponding deformation in <a href="#fig-pc-deformations" class="quarto-xref">Fig.&nbsp;4</a> – or the <a href="./viewer.html">SSM Viewer</a> – shows the ribs becoming more horizontal, contracting vertically more than horizontally, and the overall ribcage becoming shorter. Qualitatively, PC2 may be interpreted as a slender-versus-stout body-shape axis.</p>
+<p>PC3 – most strongly negatively predicted by body mass and body-fat percentage – concentrates its descriptor associations at the free ribs 11 and 12 (<a href="#fig-pc-anatomy-pc3" class="quarto-xref">Fig.&nbsp;10 (c)</a>): negative on sphericity and positive on every other feature (recall that PyRadiomics defines Flatness and Elongation inversely; see <a href="#per-rib-shape-descriptors">Methods §2.6</a> and <a href="#tbl-shape-descriptors" class="quarto-xref">Table&nbsp;2</a>). The corresponding deformation in <a href="#fig-pc-deformations" class="quarto-xref">Fig.&nbsp;4</a> – or the <a href="./viewer.html">SSM Viewer</a> – is largely confined to those two ribs – low-PC3 cages have small free ribs, high-PC3 cages have large ones. Qualitatively, PC3 may be interpreted as a free-rib axis.</p>
+<p>The inverse reading – how each metadata predictor reshapes the rib cage – is less easily expressed in per-rib descriptors, because a single covariate typically loads on several PC modes simultaneously and the resulting compound deformation is hard to summarise by any one geometric feature. The <a href="./viewer.html">SSM Viewer</a>’s per-predictor controls, which translate each covariate directly into its compound shape deformation, are more informative for this purpose. One noteworthy observation from such an exploration is that cumulative smoking exposure (pack-years) has a comparatively small effect on overall rib-cage shape, substantially smaller than that of body mass (cf.&nbsp;<a href="#pc-score-associations">§3.5</a>; <a href="#fig-pc-regression-targeted" class="quarto-xref">Fig.&nbsp;7</a>); the interpretation of this contrast is taken up in the <a href="#discussion">Discussion</a>.</p>
+<p>Per-PC anatomical maps for PC4 onwards are reported in <a href="./supplement.html#sec-suppl-pc-anatomy">Supplement S5</a>, and the <a href="./viewer.html">SSM Viewer</a> supports continuous exploration of any combination of the modes.</p>
+</section>
+</section>
+<section id="discussion" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Discussion</h1>
+<section id="principal-findings" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="principal-findings"><span class="header-section-number">4.1</span> Principal findings</h2>
+<p>Three principal findings frame the analyses of <a href="#results">§3</a>.</p>
+<p>First, population-level rib-cage geometry is low-dimensional: a handful of orthogonal PC axes capture the majority of the shape variance observed across 26,275 adults aged 19–74.</p>
+<p>Second, the leading modes admit consistent, named anatomical readings rather than abstract directions in shape space: PC1 a sexually dimorphic axis that widens the cage, opens it anteriorly, and reduces cranio-caudal inclination of the rib base; PC2 a slender-versus-stout body-habitus contrast on which height and body composition load in opposite directions; PC3 a free-rib-scale axis largely confined to ribs 11–12. That PC1 captures this coupled, multi-region deformation in a single component is itself a result – the surface representation expresses what lower-dimensional parametric families <span class="citation" data-cites="Holcombe2017 Robinson2024">[<a href="#ref-Holcombe2017" role="doc-biblioref">22</a>,<a href="#ref-Robinson2024" role="doc-biblioref">23</a>]</span> cannot recover from one mode.</p>
+<p>Third, at this anatomical level, shape change is dominated by sex, about half of the sex difference on PC1 being attenuated after adjusting for body size and composition. When it comes to modifiable variables, shape change is modulated more by body mass and body fat percentage than by smoking exposure – a population-level association rather than a causal claim. Caveats on this reading are deferred to <a href="#strengths-and-limitations">Strengths and limitations</a>.</p>
+</section>
+<section id="comparison-with-prior-work" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="comparison-with-prior-work"><span class="header-section-number">4.2</span> Comparison with prior work</h2>
+<p>The two anchor surface-correspondence rib SSMs, <span class="citation" data-cites="Shi2014">[<a href="#ref-Shi2014" role="doc-biblioref">11</a>]</span> (n = 89, left hemithorax) and <span class="citation" data-cites="Wang2016">[<a href="#ref-Wang2016" role="doc-biblioref">9</a>]</span> (n = 101, full cage), established the PCA-plus-demographic-regression formulation but were limited by sample size. The parametric centerline pipelines of <span class="citation" data-cites="Holcombe2016">[<a href="#ref-Holcombe2016" role="doc-biblioref">21</a>]</span> and <span class="citation" data-cites="Holcombe2017">[<a href="#ref-Holcombe2017" role="doc-biblioref">22</a>]</span> (n = 100 and 1,042 participants respectively, trauma-screened CT) traded surface correspondence for a logarithmic-spiral plus orientation representation and identified independent effects of age, sex, height and weight. <span class="citation" data-cites="Robinson2024">[<a href="#ref-Robinson2024" role="doc-biblioref">23</a>]</span> reached n = 1,719 with a fully automated CT pipeline but characterised shape through ten holistic scalar measurements, on the explicit argument that scalar descriptors are more interpretable than PCA modes, and deliberately restricted recruitment to ages 25–45 to remove ageing effects. The present model combines bilateral 24-rib surface correspondence with a cohort roughly two orders of magnitude larger than the prior surface SSMs and approximately an order of magnitude larger than the largest prior automated pipeline. The PyRadiomics cross-walk (<a href="#per-rib-shape-descriptors">Methods §2.6</a>, <a href="#sec-shape-mode-radiomics">§2.8.4</a>) directly addresses the <span class="citation" data-cites="Robinson2024">[<a href="#ref-Robinson2024" role="doc-biblioref">23</a>]</span> interpretability concern: PC modes are readable as compound deformations whose loadings on named geometric descriptors can be tabulated rib-by-rib (see <a href="#anatomical-interpretation-of-principal-modes">§3.6</a>).</p>
+<p>The imaging substrate also differs. NAKO is a population-based prospective cohort recruited on a standardised 3 T whole-body MRI protocol across multiple study centers <span class="citation" data-cites="Peters2022 Rach2025 Bamberg2015">[<a href="#ref-Peters2022" role="doc-biblioref">24</a>–<a href="#ref-Bamberg2015" role="doc-biblioref">26</a>]</span>, spanning the full adult age range and mitigating the acute-injury and clinical-indication selection bias that pervades prior (CT-based) rib-cage cohorts. Cohort-representativeness caveats are treated under <a href="#strengths-and-limitations">Strengths and limitations</a>.</p>
+<p>The adiposity-over-pack-years reading of the barrel-chest signal sits naturally alongside the clinical literature: obesity is a documented restrictive thoracic load with measurable mechanical consequences <span class="citation" data-cites="Wehrmeister2012 Mafort2016">[<a href="#ref-Wehrmeister2012" role="doc-biblioref">16</a>,<a href="#ref-Mafort2016" role="doc-biblioref">17</a>]</span>, whereas the classical barrel-chest of <span class="citation" data-cites="Sverzellati2013">[<a href="#ref-Sverzellati2013" role="doc-biblioref">14</a>]</span> and <span class="citation" data-cites="Lim2018">[<a href="#ref-Lim2018" role="doc-biblioref">15</a>]</span> is a hyperinflation phenotype of established pulmonary disease rather than a smoking-exposure signal as such. The present model sees rib-cage geometry rather than lung parenchyma or airway calibre, so this calls into question the imagery of the barrel-chested smoker without refuting it.</p>
+<p>Methodologically, the pipeline rests on established components – Gaussian Process Morphable Models in Scalismo <span class="citation" data-cites="Luethi2018">[<a href="#ref-Luethi2018" role="doc-biblioref">30</a>]</span>, SPINEPS-derived segmentation extended to a rib class on NAKO MRI <span class="citation" data-cites="Moeller2025 Graf2023">[<a href="#ref-Moeller2025" role="doc-biblioref">27</a>,<a href="#ref-Graf2023" role="doc-biblioref">28</a>]</span>, PyRadiomics descriptors as a cross-walk to named geometric features <span class="citation" data-cites="vanGriethuysen2017">[<a href="#ref-vanGriethuysen2017" role="doc-biblioref">31</a>]</span>. The contribution lies in their application at population scale on a non-clinical imaging substrate.</p>
+</section>
+<section id="strengths-and-limitations" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="strengths-and-limitations"><span class="header-section-number">4.3</span> Strengths and limitations</h2>
+<p>The principal strengths follow from the combination set out above: a population-based prospective MRI cohort more than an order of magnitude larger than prior automated-pipeline work, dense per-vertex surface correspondence across all 24 ribs, and a PyRadiomics cross-walk that restores anatomical readability without collapsing the coupled multi-region variation that motivates the surface representation. Model fidelity is reported using the standard Styner triad of compactness, generalisation and specificity, and a held-out demographics-to-geometry prediction benchmark. An interactive viewer and scripts for generating rib cage models are provided to support downstream reuse as a population reference.</p>
+<p>Several limitations should be read alongside these strengths.</p>
+<p>The design is cross-sectional: the associations with body composition, age, and smoking exposure (<a href="#pc-score-associations">§3.5</a>) describe population-level structure rather than within-individual trajectories. NAKO recruitment carries a modest overall 15.6% baseline response rate with documented under-representation of lower-educated and non-German residents <span class="citation" data-cites="Rach2025">[<a href="#ref-Rach2025" role="doc-biblioref">25</a>]</span>, so the resulting reference is appropriate for an adult population of predominantly central European ancestry and should not be extrapolated to other ancestries without appropriate measures.</p>
+<p>MRI affords lower direct cortical-bone contrast and resolution than CT, and rib labels are produced by an automated deep-learning segmentation pipeline <span class="citation" data-cites="Moeller2025 Graf2023">[<a href="#ref-Moeller2025" role="doc-biblioref">27</a>,<a href="#ref-Graf2023" role="doc-biblioref">28</a>]</span>; the rib-count and registration-quality gates filter many but not all of its failure modes, and the residual error is propagated into the shape model rather than separately quantified against a manual reference.</p>
+<p>The exclusion rate for non-canonical rib counts is higher than the prevalence of numerical variations reported for European cohorts <span class="citation" data-cites="Brewin2009 Osiowski2024">[<a href="#ref-Brewin2009" role="doc-biblioref">46</a>,<a href="#ref-Osiowski2024" role="doc-biblioref">47</a>]</span>, and likely also reflects segmentation errors at the thoracolumbar (under-segmenting rib 12, or over-segmenting a pronounced L1 transverse process) and cervico-thoracic transition, as well as fused segmentations across multiple ribs. Excluding non-canonical rib counts is itself a limitation: the present SSM-PCA framework captures shape variation but not numerical variation. Further, direct numerical comparison of cross-sectional cortical metrics with CT-derived references <span class="citation" data-cites="Holcombe2023 Holcombe2020">[<a href="#ref-Holcombe2023" role="doc-biblioref">7</a>,<a href="#ref-Holcombe2020" role="doc-biblioref">8</a>]</span> is out of scope of this work.</p>
+<p>At the descriptor level, individual partial R² values remain modest (<a href="#descriptor-level-associations">§3.4</a>); per-rib effect-size statements are best interpreted alongside the PC-level analyses where signal concentrates. The small smoking signal at the level of overall rib-cage geometry does not refute the established COPD-associated barrel chest: the present model does not stratify by pulmonary phenotype, and an emphysema-positive subgroup may show a clearer signal. Nor does it argue against the well-established consequences of smoking for pulmonary function, which lie outside what overall rib-cage geometry can capture. Finally, the model represents rib-cage morphology only; other thoracic factors – notably thoracic-spine curvature – enter only through their effect on rib pose.</p>
+</section>
+<section id="conclusion" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">4.4</span> Conclusion</h2>
+<p>We present a population-scale statistical shape model of the complete 24-rib cage built from 26,275 standardised NAKO whole-body MRI scans, with dense per-vertex correspondence and a per-rib radiomics cross-walk that recovers named geometric descriptors from the principal modes. For example, PC1–PC3 admit consistent anatomical readings – a sexually dimorphic axis, a slender-versus-stout body-habitus contrast, and a free-rib axis at ribs 11–12. We show that the population-level signature of cumulative smoking exposure is substantially smaller than that of body mass or body-fat percentage. The model is intended as a population-representative geometric reference against which donor-derived finite-element human-body models can be benchmarked and morphed <span class="citation" data-cites="Iwamoto2015 Vavalle2013 Holcombe2020">[<a href="#ref-Iwamoto2015" role="doc-biblioref">4</a>,<a href="#ref-Vavalle2013" role="doc-biblioref">5</a>,<a href="#ref-Holcombe2020" role="doc-biblioref">8</a>]</span>, as a substrate for simulation work that links external rib geometry to biomechanical response <span class="citation" data-cites="Iraeus2020 Holcombe2023">[<a href="#ref-Iraeus2020" role="doc-biblioref">6</a>,<a href="#ref-Holcombe2023" role="doc-biblioref">7</a>]</span>, and as a foundation for further large-cohort statistical shape modelling. Mean shape, PC modes, and metadata loadings are released alongside an interactive browser (see the <a href="./viewer.html">SSM Viewer</a> page and the <a href="#data-and-code-availability">Data and code availability</a> section).</p>
+</section>
+</section>
+<section id="data-and-code-availability" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Data and code availability</h1>
+<p>Full source code, configuration for the canonical run, and the figure bundle reproduced in this manuscript are available at <a href="https://github.com/AnatolAicher/NAKO-Ribcage-SSM" class="uri">https://github.com/AnatolAicher/NAKO-Ribcage-SSM</a>. The mean shape model, PC modes, and metadata loadings are released with that repository and archived on Zenodo at <a href="https://doi.org/10.5281/zenodo.22230693" class="uri">https://doi.org/10.5281/zenodo.22230693</a> (version 1.1.0: <a href="https://doi.org/10.5281/zenodo.22237859" class="uri">https://doi.org/10.5281/zenodo.22237859</a>). Due to data privacy regulations in the context of the NAKO cohort, the individual-level metadata and imaging data used in this project cannot be released publicly. Specific data may be available on request from the authors, subject to NAKO data access policies.</p>
+</section>
+<section id="acknowledgements" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Acknowledgements</h1>
+<section id="funding" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="funding"><span class="header-section-number">6.1</span> Funding</h2>
+<p>This project was conducted with data from the German National Cohort (NAKO) (www.nako.de). The NAKO is funded by the Federal Ministry of Research, Technology and Space (BMFTR) [project funding reference numbers: 01ER1301A/B/C, 01ER1511D, 01ER1801A/B/C/D and 01ER2301A/B/C], Federal States of Germany and the Helmholtz Association, the participating universities and the institutes of the Leibniz Association.</p>
+</section>
+<section id="competing-interests" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="competing-interests"><span class="header-section-number">6.2</span> Competing Interests</h2>
+<p>All authors declare no conflicts of interest.</p>
+</section>
+<section id="contributions" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="contributions"><span class="header-section-number">6.3</span> Contributions</h2>
+<p>Conceptualization: [A.A.]; Methodology: [A.A., H.M.]; Software: [A.A., H.M.]; Validation: [H.M., M.L., B.M., F.E., R.G.]; Formal analysis: [A.A.]; Investigation: [A.A.]; Writing – original draft: [A.A.]; Writing – review and editing: [all authors]; Visualization: [A.A.]; Supervision: [H.M.]; Resources: [J.K., T.F., T.Kr., S.W., C.S., C.O.S., M.W., S.R., J.H., J.D., T.Ke., T.N., T.P., F.B.]; Data curation: [H.M.]; Funding acquisition: [J.K., T.F., T.P., T.N.].</p>
+<p>All authors have read and approved the final version of the manuscript.</p>
+</section>
+<section id="acknowledgements-1" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="acknowledgements-1"><span class="header-section-number">6.4</span> Acknowledgements</h2>
+<p>We thank all participants of the German National Cohort (NAKO) and the staff of this research initiative. Members and affiliations of the NAKO Investigator Consortium can be accessed via www.nako.de/principal-investigators.</p>
+</section>
+</section>
+<section id="references" class="level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-Liebsch2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">C. Liebsch, T. Seiffert, M. Vlcek, M. Beer, M. Huber-Lang, H.-J. Wilke, Patterns of serial rib fractures after blunt chest trauma: An analysis of 380 cases, PLOS ONE 14 (2019) e0224105. https://doi.org/<a href="https://doi.org/10.1371/journal.pone.0224105">10.1371/journal.pone.0224105</a>.</div>
+</div>
+<div id="ref-Peek2020TSACO" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">J. Peek, Y. Ochen, N. Saillant, R.H.H. Groenwold, L.P.H. Leenen, T. Uribe-Leitz, R.M. Houwert, M. Heng, Traumatic rib fractures: A marker of severe injury. A nationwide study using the national trauma data bank, Trauma Surgery &amp; Acute Care Open 5 (2020) e000441. https://doi.org/<a href="https://doi.org/10.1136/tsaco-2020-000441">10.1136/tsaco-2020-000441</a>.</div>
+</div>
+<div id="ref-Peek2020EJTES" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">J. Peek, R.B. Beks, F. Hietbrink, M.B. De Jong, M. Heng, F.J.P. Beeres, F.F.A. IJpma, L.P.H. Leenen, R.H.H. Groenwold, R.M. Houwert, Epidemiology and outcome of rib fractures: A nationwide study in the netherlands, European Journal of Trauma and Emergency Surgery 48 (2020) 265–271. https://doi.org/<a href="https://doi.org/10.1007/s00068-020-01412-2">10.1007/s00068-020-01412-2</a>.</div>
+</div>
+<div id="ref-Iwamoto2015" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">M. Iwamoto, Y. Nakahira, H. Kimpara, Development and validation of the total HUman model for safety (THUMS) toward further understanding of occupant injury mechanisms in precrash and during crash, Traffic Injury Prevention 16 (2015) S36–S48. https://doi.org/<a href="https://doi.org/10.1080/15389588.2015.1015000">10.1080/15389588.2015.1015000</a>.</div>
+</div>
+<div id="ref-Vavalle2013" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">N.A. Vavalle, D.P. Moreno, A.C. Rhyne, J.D. Stitzel, F.S. Gayzik, Lateral impact validation of a geometrically accurate full body finite element model for blunt injury prediction, Annals of Biomedical Engineering 41 (2012) 497–512. https://doi.org/<a href="https://doi.org/10.1007/s10439-012-0684-3">10.1007/s10439-012-0684-3</a>.</div>
+</div>
+<div id="ref-Iraeus2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">J. Iraeus, K. Brolin, B. Pipkorn, Generic finite element models of human ribs, developed and validated for stiffness and strain prediction – to be used in rib fracture risk evaluation for the human population in vehicle crashes, Journal of the Mechanical Behavior of Biomedical Materials 106 (2020) 103742. https://doi.org/<a href="https://doi.org/10.1016/j.jmbbm.2020.103742">10.1016/j.jmbbm.2020.103742</a>.</div>
+</div>
+<div id="ref-Holcombe2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">S. Holcombe, Y. Huang, Cross-sectional properties of rib geometry from an adult population, Frontiers in Bioengineering and Biotechnology 11 (2023). https://doi.org/<a href="https://doi.org/10.3389/fbioe.2023.1158242">10.3389/fbioe.2023.1158242</a>.</div>
+</div>
+<div id="ref-Holcombe2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">S.A. Holcombe, A.M. Agnew, B. Derstine, S.C. Wang, Comparing FE human body model rib geometry to population data, Biomechanics and Modeling in Mechanobiology 19 (2020) 2227–2239. https://doi.org/<a href="https://doi.org/10.1007/s10237-020-01335-2">10.1007/s10237-020-01335-2</a>.</div>
+</div>
+<div id="ref-Wang2016" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">Y. Wang, L. Cao, Z. Bai, M.P. Reed, J.D. Rupp, C.N. Hoff, J. Hu, A parametric ribcage geometry model accounting for variations among the adult population, Journal of Biomechanics 49 (2016) 2791–2798. https://doi.org/<a href="https://doi.org/10.1016/j.jbiomech.2016.06.020">10.1016/j.jbiomech.2016.06.020</a>.</div>
+</div>
+<div id="ref-Larsson2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">K.-J. Larsson, J. Östh, J. Iraeus, B. Pipkorn, A first step toward a family of morphed human body models enabling prediction of population injury outcomes, Journal of Biomechanical Engineering 146 (2024). https://doi.org/<a href="https://doi.org/10.1115/1.4064033">10.1115/1.4064033</a>.</div>
+</div>
+<div id="ref-Shi2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">X. Shi, L. Cao, M.P. Reed, J.D. Rupp, C.N. Hoff, J. Hu, A statistical human rib cage geometry model accounting for variations by age, sex, stature and body mass index, Journal of Biomechanics 47 (2014) 2277–2285. https://doi.org/<a href="https://doi.org/10.1016/j.jbiomech.2014.04.045">10.1016/j.jbiomech.2014.04.045</a>.</div>
+</div>
+<div id="ref-Larsson2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">K.-J. Larsson, J. Iraeus, S. Holcombe, B. Pipkorn, Influences of human thorax variability on population rib fracture risk prediction using human body models, Frontiers in Bioengineering and Biotechnology 11 (2023). https://doi.org/<a href="https://doi.org/10.3389/fbioe.2023.1154272">10.3389/fbioe.2023.1154272</a>.</div>
+</div>
+<div id="ref-Bellemare2003" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">F. Bellemare, A. Jeanneret, J. Couture, Sex differences in thoracic dimensions and configuration, American Journal of Respiratory and Critical Care Medicine 168 (2003) 305–312. https://doi.org/<a href="https://doi.org/10.1164/rccm.200208-876oc">10.1164/rccm.200208-876oc</a>.</div>
+</div>
+<div id="ref-Sverzellati2013" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">N. Sverzellati, D. Colombi, G. Randi, A. Pavarani, M. Silva, S.L. Walsh, M. Pistolesi, V. Alfieri, A. Chetta, M. Vaccarezza, M. Vitale, U. Pastorino, Computed tomography measurement of rib cage morphometry in emphysema, PLoS ONE 8 (2013) e68546. https://doi.org/<a href="https://doi.org/10.1371/journal.pone.0068546">10.1371/journal.pone.0068546</a>.</div>
+</div>
+<div id="ref-Lim2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">S.J. Lim, J.-Y. Kim, S.J. Lee, G.D. Lee, Y.J. Cho, Y.Y. Jeong, K.N. Jeon, J.D. Lee, J.R. Kim, H.C. Kim, Altered thoracic cage dimensions in patients with chronic obstructive pulmonary disease, Tuberculosis and Respiratory Diseases 81 (2018) 123. https://doi.org/<a href="https://doi.org/10.4046/trd.2017.0095">10.4046/trd.2017.0095</a>.</div>
+</div>
+<div id="ref-Wehrmeister2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">F.C. Wehrmeister, A.M.B. Menezes, L.C. Muniz, J. Martínez-Mesa, M.R. Domingues, B.L. Horta, Waist circumference and pulmonary function: A systematic review and meta-analysis, Systematic Reviews 1 (2012). https://doi.org/<a href="https://doi.org/10.1186/2046-4053-1-55">10.1186/2046-4053-1-55</a>.</div>
+</div>
+<div id="ref-Mafort2016" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">T.T. Mafort, R. Rufino, C.H. Costa, A.J. Lopes, Obesity: Systemic and pulmonary complications, biochemical abnormalities and impairment of lung function, Multidisciplinary Respiratory Medicine 11 (2016). https://doi.org/<a href="https://doi.org/10.1186/s40248-016-0066-z">10.1186/s40248-016-0066-z</a>.</div>
+</div>
+<div id="ref-Watkins2005" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[18] </div><div class="csl-right-inline">R. Watkins, R. Watkins, L. Williams, S. Ahlbrand, R. Garcia, A. Karamanian, L. Sharp, C. Vo, T. Hedman, Stability provided by the sternum and rib cage in the thoracic spine, Spine 30 (2005) 1283–1286. https://doi.org/<a href="https://doi.org/10.1097/01.brs.0000164257.69354.bb">10.1097/01.brs.0000164257.69354.bb</a>.</div>
+</div>
+<div id="ref-Liebsch2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[19] </div><div class="csl-right-inline">C. Liebsch, N. Graf, K. Appelt, H.-J. Wilke, The rib cage stabilizes the human thoracic spine: An in vitro study using stepwise reduction of rib cage structures, PLOS ONE 12 (2017) e0178733. https://doi.org/<a href="https://doi.org/10.1371/journal.pone.0178733">10.1371/journal.pone.0178733</a>.</div>
+</div>
+<div id="ref-Liebsch2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[20] </div><div class="csl-right-inline">C. Liebsch, H.-J. Wilke, How does the rib cage affect the biomechanical properties of the thoracic spine? A systematic literature review, Frontiers in Bioengineering and Biotechnology 10 (2022). https://doi.org/<a href="https://doi.org/10.3389/fbioe.2022.904539">10.3389/fbioe.2022.904539</a>.</div>
+</div>
+<div id="ref-Holcombe2016" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[21] </div><div class="csl-right-inline">S.A. Holcombe, S.C. Wang, J.B. Grotberg, Modeling female and male rib geometry with logarithmic spirals, Journal of Biomechanics 49 (2016) 2995–3003. https://doi.org/<a href="https://doi.org/10.1016/j.jbiomech.2016.07.021">10.1016/j.jbiomech.2016.07.021</a>.</div>
+</div>
+<div id="ref-Holcombe2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[22] </div><div class="csl-right-inline">S.A. Holcombe, S.C. Wang, J.B. Grotberg, The effect of age and demographics on rib shape, Journal of Anatomy 231 (2017) 229–247. https://doi.org/<a href="https://doi.org/10.1111/joa.12632">10.1111/joa.12632</a>.</div>
+</div>
+<div id="ref-Robinson2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[23] </div><div class="csl-right-inline">A. Robinson, B. Zheng, B.W. von Kleeck, J. Tan, F.S. Gayzik, Holistic shape variation of the rib cage in an adult population, Frontiers in Bioengineering and Biotechnology 12 (2024). https://doi.org/<a href="https://doi.org/10.3389/fbioe.2024.1432911">10.3389/fbioe.2024.1432911</a>.</div>
+</div>
+<div id="ref-Peters2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[24] </div><div class="csl-right-inline">A. Peters, A. Peters, K.H. Greiser, S. Göttlicher, W. Ahrens, M. Albrecht, F. Bamberg, T. Bärnighausen, H. Becher, K. Berger, A. Beule, H. Boeing, B. Bohn, K. Bohnert, B. Braun, H. Brenner, R. Bülow, S. Castell, A. Damms-Machado, M. Dörr, N. Ebert, M. Ecker, C. Emmel, B. Fischer, C.-W. Franzke, S. Gastell, G. Giani, M. Günther, K. Günther, K.-P. Günther, J. Haerting, U. Haug, I.M. Heid, M. Heier, D. Heinemeyer, T. Hendel, F. Herbolsheimer, J. Hirsch, W. Hoffmann, B. Holleczek, H. Hölling, A. Hörlein, K.-H. Jöckel, R. Kaaks, A. Karch, S. Karrasch, N. Kartschmit, H.-U. Kauczor, T. Keil, Y. Kemmling, B. Klee, B. Klüppelholz, A. Kluttig, L. Kofink, A. Köttgen, D. Kraft, G. Krause, L. Kretz, L. Krist, J. Kühnisch, O. Kuß, N. Legath, A.-T. Lehnich, M. Leitzmann, W. Lieb, J. Linseisen, M. Loeffler, A. Macdonald, K.H. Maier-Hein, N. Mangold, C. Meinke-Franze, C. Meisinger, J. Melzer, B. Mergarten, K.B. Michels, R. Mikolajczyk, S. Moebus, U. Mueller, M. Nauck, T. Niendorf, K. Nikolaou, N. Obi, S. Ostrzinski, L. Panreck, I. Pigeot, T. Pischon, I. Pschibul-Thamm, W. Rathmann, A. Reineke, S. Roloff, D. Rujescu, S. Rupf, O. Sander, T. Schikowski, S. Schipf, P. Schirmacher, C.L. Schlett, B. Schmidt, G. Schmidt, M. Schmidt, G. Schöne, H. Schulz, M.B. Schulze, A. Schweig, A.M. Sedlmeier, S. Selder, J. Six-Merker, R. Sowade, A. Stang, O. Stegle, K. Steindorf, G. Stübs, E. Swart, H. Teismann, I. Thiele, S. Thierry, M. Ueffing, H. Völzke, S. Waniek, A. Weber, N. Werner, H.-E. Wichmann, S.N. Willich, K. Wirkner, K. Wolf, R. Wolff, H. Zeeb, M. Zinkhan, J. Zschocke, Framework and baseline examination of the german national cohort (NAKO), European Journal of Epidemiology 37 (2022) 1107–1124. https://doi.org/<a href="https://doi.org/10.1007/s10654-022-00890-5">10.1007/s10654-022-00890-5</a>.</div>
+</div>
+<div id="ref-Rach2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[25] </div><div class="csl-right-inline">S. Rach, M. Sand, A. Reineke, H. Becher, K.H. Greiser, K. Wolf, K. Wirkner, C.O. Schmidt, S. Schipf, K.-H. Jöckel, L. Krist, W. Ahrens, H. Brenner, S. Castell, S. Gastell, V. Harth, B. Holleczek, T. Ittermann, S. Janisch-Fabian, A. Karch, T. Keil, C.J. Klett-Tammen, A. Kluttig, O. Kuß, M. Leitzmann, W. Lieb, C. Meinke-Franze, K.B. Michels, R. Mikolajczyk, I. Moreno Velásquez, N. Obi, C. Övermöhle, A. Peters, T. Pischon, S. Rospleszcz, B. Schmidt, M.B. Schulze, A. Stang, H. Teismann, C. Töpfer, R. Wolff, K. Günther, The baseline examinations of the german national cohort (NAKO): Recruitment protocol, response and weighting, European Journal of Epidemiology 40 (2025) 475–489. https://doi.org/<a href="https://doi.org/10.1007/s10654-025-01219-8">10.1007/s10654-025-01219-8</a>.</div>
+</div>
+<div id="ref-Bamberg2015" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[26] </div><div class="csl-right-inline">F. Bamberg, H.-U. Kauczor, S. Weckbach, C.L. Schlett, M. Forsting, S.C. Ladd, K.H. Greiser, M.-A. Weber, J. Schulz-Menger, T. Niendorf, T. Pischon, S. Caspers, K. Amunts, K. Berger, R. Bülow, N. Hosten, K. Hegenscheid, T. Kröncke, J. Linseisen, M. Günther, J.G. Hirsch, A. Köhn, T. Hendel, H.-E. Wichmann, B. Schmidt, K.-H. Jöckel, W. Hoffmann, R. Kaaks, M.F. Reiser, H. and Völzke, Whole-body MR imaging in the german national cohort: Rationale, design and technical background, Radiology 277 (2015) 206–220. https://doi.org/<a href="https://doi.org/10.1148/radiol.2015142272">10.1148/radiol.2015142272</a>.</div>
+</div>
+<div id="ref-Moeller2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[27] </div><div class="csl-right-inline">H. Möller, R. Graf, J. Schmitt, B. Keinert, H. Schön, M. Atad, A. Sekuboyina, F. Streckenbach, F. Kofler, T. Kroencke, S. Bette, S.N. Willich, T. Keil, T. Niendorf, T. Pischon, B. Endemann, B. Menze, D. Rueckert, J.S. Kirschke, SPINEPS–automatic whole spine segmentation of T2-weighted MR images using a two-phase approach to multi-class semantic and instance segmentation, European Radiology 35 (2024) 1178–1189. https://doi.org/<a href="https://doi.org/10.1007/s00330-024-11155-y">10.1007/s00330-024-11155-y</a>.</div>
+</div>
+<div id="ref-Graf2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[28] </div><div class="csl-right-inline">R. Graf, J. Schmitt, S. Schlaeger, H.K. Möller, V. Sideri-Lampretsa, A. Sekuboyina, S.M. Krieg, B. Wiestler, B. Menze, D. Rueckert, J.S. Kirschke, Denoising diffusion-based MRI to CT image translation enables automated spinal segmentation, European Radiology Experimental 7 (2023). https://doi.org/<a href="https://doi.org/10.1186/s41747-023-00385-2">10.1186/s41747-023-00385-2</a>.</div>
+</div>
+<div id="ref-Moeller2026" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[29] </div><div class="csl-right-inline">H. Möller, A. Dima, B. Keinert-Weth, R. Graf, M. Atad, J. Paetzold, F. Jungmann, R. Braren, F. Kofler, B. Menze, D. Rueckert, J.S. Kirschke, H. Schön, Automated thoracolumbar stump rib detection and analysis in a large CT cohort, AI 7 (2026) 224. https://doi.org/<a href="https://doi.org/10.3390/ai7060224">10.3390/ai7060224</a>.</div>
+</div>
+<div id="ref-Luethi2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[30] </div><div class="csl-right-inline">M. Luthi, T. Gerig, C. Jud, T. Vetter, Gaussian process morphable models, IEEE Transactions on Pattern Analysis and Machine Intelligence 40 (2018) 1860–1873. https://doi.org/<a href="https://doi.org/10.1109/tpami.2017.2739743">10.1109/tpami.2017.2739743</a>.</div>
+</div>
+<div id="ref-vanGriethuysen2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[31] </div><div class="csl-right-inline">J.J.M. van Griethuysen, A. Fedorov, C. Parmar, A. Hosny, N. Aucoin, V. Narayan, R.G.H. Beets-Tan, J.-C. Fillion-Robin, S. Pieper, H.J.W.L. Aerts, Computational radiomics system to decode the radiographic phenotype, Cancer Research 77 (2017) e104–e107. https://doi.org/<a href="https://doi.org/10.1158/0008-5472.can-17-0339">10.1158/0008-5472.can-17-0339</a>.</div>
+</div>
+<div id="ref-Umeyama1991" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[32] </div><div class="csl-right-inline">S. Umeyama, Least-squares estimation of transformation parameters between two point patterns, IEEE Transactions on Pattern Analysis and Machine Intelligence 13 (1991) 376–380. https://doi.org/<a href="https://doi.org/10.1109/34.88573">10.1109/34.88573</a>.</div>
+</div>
+<div id="ref-Schonemann1966" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[33] </div><div class="csl-right-inline">P.H. Schönemann, A generalized solution of the orthogonal procrustes problem, Psychometrika 31 (1966) 1–10. https://doi.org/<a href="https://doi.org/10.1007/bf02289451">10.1007/bf02289451</a>.</div>
+</div>
+<div id="ref-Gower1975" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[34] </div><div class="csl-right-inline">J.C. Gower, Generalized procrustes analysis, Psychometrika 40 (1975) 33–51. https://doi.org/<a href="https://doi.org/10.1007/bf02291478">10.1007/bf02291478</a>.</div>
+</div>
+<div id="ref-Westreich2013" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[35] </div><div class="csl-right-inline">D. Westreich, S. Greenland, The table 2 fallacy: Presenting and interpreting confounder and modifier coefficients, American Journal of Epidemiology 177 (2013) 292–298. https://doi.org/<a href="https://doi.org/10.1093/aje/kws412">10.1093/aje/kws412</a>.</div>
+</div>
+<div id="ref-Benjamini1995" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[36] </div><div class="csl-right-inline">Y. Benjamini, Y. Hochberg, Controlling the false discovery rate: A practical and powerful approach to multiple testing, Journal of the Royal Statistical Society Series B: Statistical Methodology 57 (1995) 289–300. https://doi.org/<a href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x">10.1111/j.2517-6161.1995.tb02031.x</a>.</div>
+</div>
+<div id="ref-Styner2003" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[37] </div><div class="csl-right-inline">M.A. Styner, K.T. Rajamani, L.-P. Nolte, G. Zsemlye, G. Székely, C.J. Taylor, R.H. Davies, Evaluation of 3D correspondence methods for model building, in: Information Processing in Medical Imaging, Springer Berlin Heidelberg, 2003: pp. 63–75. https://doi.org/<a href="https://doi.org/10.1007/978-3-540-45087-0_6">10.1007/978-3-540-45087-0_6</a>.</div>
+</div>
+<div id="ref-Harris2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[38] </div><div class="csl-right-inline">C.R. Harris, K.J. Millman, S.J. van der Walt, R. Gommers, P. Virtanen, D. Cournapeau, E. Wieser, J. Taylor, S. Berg, N.J. Smith, R. Kern, M. Picus, S. Hoyer, M.H. van Kerkwijk, M. Brett, A. Haldane, J.F. del Río, M. Wiebe, P. Peterson, P. Gérard-Marchant, K. Sheppard, T. Reddy, W. Weckesser, H. Abbasi, C. Gohlke, T.E. Oliphant, Array programming with NumPy, Nature 585 (2020) 357–362. https://doi.org/<a href="https://doi.org/10.1038/s41586-020-2649-2">10.1038/s41586-020-2649-2</a>.</div>
+</div>
+<div id="ref-McKinney2010" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[39] </div><div class="csl-right-inline">W. McKinney, Data structures for statistical computing in python, in: Proceedings of the 9th Python in Science Conference, SciPy, 2010: pp. 56–61. https://doi.org/<a href="https://doi.org/10.25080/majora-92bf1922-00a">10.25080/majora-92bf1922-00a</a>.</div>
+</div>
+<div id="ref-Pedregosa2011" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[40] </div><div class="csl-right-inline">F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O. Grisel, M. Blondel, P. Prettenhofer, R. Weiss, V. Dubourg, J. Vanderplas, A. Passos, D. Cournapeau, M. Brucher, M. Perrot, E. Duchesnay, Scikit-learn: Machine learning in <span>Python</span>, Journal of Machine Learning Research 12 (2011) 2825–2830.</div>
+</div>
+<div id="ref-Seabold2010" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[41] </div><div class="csl-right-inline">S. Seabold, J. Perktold, Statsmodels: Econometric and statistical modeling with python, in: Proceedings of the 9th Python in Science Conference, SciPy, 2010: pp. 92–96. https://doi.org/<a href="https://doi.org/10.25080/majora-92bf1922-011">10.25080/majora-92bf1922-011</a>.</div>
+</div>
+<div id="ref-Virtanen2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[42] </div><div class="csl-right-inline">P. Virtanen, R. Gommers, T.E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S.J. van der Walt, M. Brett, J. Wilson, K.J. Millman, N. Mayorov, A.R.J. Nelson, E. Jones, R. Kern, E. Larson, C.J. Carey, İ. Polat, Y. Feng, E.W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E.A. Quintero, C.R. Harris, A.M. Archibald, A.H. Ribeiro, F. Pedregosa, P. van Mulbregt, A. Vijaykumar, A.P. Bardelli, A. Rothberg, A. Hilboll, A. Kloeckner, A. Scopatz, A. Lee, A. Rokem, C.N. Woods, C. Fulton, C. Masson, C. Häggström, C. Fitzgerald, D.A. Nicholson, D.R. Hagen, D.V. Pasechnik, E. Olivetti, E. Martin, E. Wieser, F. Silva, F. Lenders, F. Wilhelm, G. Young, G.A. Price, G.-L. Ingold, G.E. Allen, G.R. Lee, H. Audren, I. Probst, J.P. Dietrich, J. Silterra, J.T. Webber, J. Slavič, J. Nothman, J. Buchner, J. Kulick, J.L. Schönberger, J.V. de Miranda Cardoso, J. Reimer, J. Harrington, J.L.C. Rodríguez, J. Nunez-Iglesias, J. Kuczynski, K. Tritz, M. Thoma, M. Newville, M. Kümmerer, M. Bolingbroke, M. Tartre, M. Pak, N.J. Smith, N. Nowaczyk, N. Shebanov, O. Pavlyk, P.A. Brodtkorb, P. Lee, R.T. McGibbon, R. Feldbauer, S. Lewis, S. Tygier, S. Sievert, S. Vigna, S. Peterson, S. More, T. Pudlik, T. Oshima, T.J. Pingel, T.P. Robitaille, T. Spura, T.R. Jones, T. Cera, T. Leslie, T. Zito, T. Krauss, U. Upadhyay, Y.O. Halchenko, Y. Vázquez-Baeza, SciPy 1.0: Fundamental algorithms for scientific computing in python, Nature Methods 17 (2020) 261–272. https://doi.org/<a href="https://doi.org/10.1038/s41592-019-0686-2">10.1038/s41592-019-0686-2</a>.</div>
+</div>
+<div id="ref-Sullivan2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[43] </div><div class="csl-right-inline">C. Sullivan, A. Kaszynski, PyVista: 3D plotting and mesh analysis through a streamlined interface for the visualization toolkit (VTK), Journal of Open Source Software 4 (2019) 1450. https://doi.org/<a href="https://doi.org/10.21105/joss.01450">10.21105/joss.01450</a>.</div>
+</div>
+<div id="ref-VanderPlas2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[44] </div><div class="csl-right-inline">J. VanderPlas, B. Granger, J. Heer, D. Moritz, K. Wongsuphasawat, A. Satyanarayan, E. Lees, I. Timofeev, B. Welsh, S. Sievert, Altair: Interactive statistical visualizations for python, Journal of Open Source Software 3 (2018) 1057. https://doi.org/<a href="https://doi.org/10.21105/joss.01057">10.21105/joss.01057</a>.</div>
+</div>
+<div id="ref-Satyanarayan2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[45] </div><div class="csl-right-inline">A. Satyanarayan, D. Moritz, K. Wongsuphasawat, J. Heer, Vega-lite: A grammar of interactive graphics, IEEE Transactions on Visualization and Computer Graphics 23 (2017) 341–350. https://doi.org/<a href="https://doi.org/10.1109/tvcg.2016.2599030">10.1109/tvcg.2016.2599030</a>.</div>
+</div>
+<div id="ref-Brewin2009" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[46] </div><div class="csl-right-inline">J. Brewin, M. Hill, H. Ellis, The prevalence of cervical ribs in a london population, Clinical Anatomy 22 (2009) 331–336. https://doi.org/<a href="https://doi.org/10.1002/ca.20774">10.1002/ca.20774</a>.</div>
+</div>
+<div id="ref-Osiowski2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[47] </div><div class="csl-right-inline">M. Osiowski, A. Osiowski, M. Preinl, K. Stolarz, T. Klepinowski, B. Jasiewicz, D. Taterra, Prevalence and characteristics of lumbar ribs: A meta-analysis with anatomical and clinical considerations, Surgical and Radiologic Anatomy 46 (2024) 2057–2066. https://doi.org/<a href="https://doi.org/10.1007/s00276-024-03504-9">10.1007/s00276-024-03504-9</a>.</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/anatolaicher\.github\.io\/NAKO-Ribcage-Manuscript\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>NAKO Ribcage SSM</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

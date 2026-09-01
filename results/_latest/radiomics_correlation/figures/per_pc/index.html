@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PC × radiomics — per-PC browser</title>
+  <style>
+    body { font-family: Inter, Helvetica, Arial, sans-serif; margin: 16px; }
+    h1   { font-size: 16px; margin: 0 0 4px 0; }
+    p    { font-size: 12px; color: #555; margin: 0 0 12px 0; }
+    label { font-size: 13px; margin-right: 8px; }
+    select { font-size: 13px; padding: 2px 6px; }
+    iframe { display: block; width: 100%; height: 86vh; border: 1px solid #ddd;
+              margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>PC × radiomics — per-PC browser</h1>
+  <p>Pick a principal component to view its rib × feature heatmap.</p>
+  <label for="picker">PC:</label>
+  <select id="picker" onchange="document.getElementById('frame').src = this.value">
+    <option value="pc01_std.html">PC 1</option>
+    <option value="pc02_std.html">PC 2</option>
+    <option value="pc03_std.html">PC 3</option>
+    <option value="pc04_std.html">PC 4</option>
+    <option value="pc05_std.html">PC 5</option>
+    <option value="pc06_std.html">PC 6</option>
+    <option value="pc07_std.html">PC 7</option>
+    <option value="pc08_std.html">PC 8</option>
+    <option value="pc09_std.html">PC 9</option>
+    <option value="pc10_std.html">PC 10</option>
+    <option value="pc11_std.html">PC 11</option>
+    <option value="pc12_std.html">PC 12</option>
+    <option value="pc13_std.html">PC 13</option>
+    <option value="pc14_std.html">PC 14</option>
+    <option value="pc15_std.html">PC 15</option>
+    <option value="pc16_std.html">PC 16</option>
+    <option value="pc17_std.html">PC 17</option>
+    <option value="pc18_std.html">PC 18</option>
+    <option value="pc19_std.html">PC 19</option>
+    <option value="pc20_std.html">PC 20</option>
+    <option value="pc21_std.html">PC 21</option>
+    <option value="pc22_std.html">PC 22</option>
+    <option value="pc23_std.html">PC 23</option>
+    <option value="pc24_std.html">PC 24</option>
+    <option value="pc25_std.html">PC 25</option>
+    <option value="pc26_std.html">PC 26</option>
+    <option value="pc27_std.html">PC 27</option>
+    <option value="pc28_std.html">PC 28</option>
+  </select>
+  <iframe id="frame" src="pc01_std.html" loading="lazy"></iframe>
+</body>
+</html>

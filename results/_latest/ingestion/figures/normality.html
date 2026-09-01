@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script src="../../../../site_libs/vega-embed/vega-embed-1d50016d5991.js"></script>
+</head>
+<body>
+<div class="vega-visualization" id="vis"></div>
+<script type="text/javascript">
+  const spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-3ac18714b186ed38c1bb92d704b26a24"}, "mark": {"type": "circle", "size": 160, "stroke": "#222", "strokeWidth": 0.5}, "encoding": {"color": {"field": "variable", "legend": {"title": "Variable"}, "scale": {"scheme": "tableau20"}, "sort": ["Elongation", "Flatness", "LeastAxis", "MajorAxis", "Max2D-Col", "Max2D-Row", "Max2D-Slc", "Max3D", "MeshVolume", "MinorAxis", "SVR", "Sphericity", "SurfArea", "rib_length"], "type": "nominal"}, "opacity": {"condition": {"param": "variable_sel", "value": 0.85}, "value": 0.15}, "tooltip": [{"field": "variable", "type": "nominal"}, {"field": "n", "title": "n", "type": "quantitative"}, {"field": "skewness", "format": ".3f", "type": "quantitative"}, {"field": "kurtosis", "format": ".3f", "type": "quantitative"}, {"field": "shapiro_W", "format": ".3f", "title": "Shapiro W", "type": "quantitative"}, {"field": "shapiro_p", "format": ".2g", "title": "Shapiro p", "type": "quantitative"}], "x": {"field": "skewness", "title": "Skewness", "type": "quantitative"}, "y": {"field": "kurtosis", "title": "Excess kurtosis", "type": "quantitative"}}, "params": [{"name": "variable_sel", "select": {"type": "point", "fields": ["variable"]}, "bind": "legend"}, {"name": "param_1e9efca18e7a2868", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": {"text": "Normality diagnostics", "anchor": "start", "fontSize": 12.0, "offset": 6, "subtitle": "Skewness \u00d7 kurtosis", "subtitleFontSize": 9.333333333333334}, "width": 321, "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json", "datasets": {"data-3ac18714b186ed38c1bb92d704b26a24": [{"column": "original_shape_Elongation", "n": 5000, "skewness": 0.007, "kurtosis": 0.138, "shapiro_W": 0.9934, "shapiro_p": 0.0, "likely_normal": true, "variable": "Elongation"}, {"column": "original_shape_Flatness", "n": 5000, "skewness": 3.434, "kurtosis": 22.68, "shapiro_W": 0.7615, "shapiro_p": 0.0, "likely_normal": false, "variable": "Flatness"}, {"column": "original_shape_LeastAxisLength", "n": 5000, "skewness": 0.295, "kurtosis": -0.432, "shapiro_W": 0.987, "shapiro_p": 0.0, "likely_normal": true, "variable": "LeastAxis"}, {"column": "original_shape_MajorAxisLength", "n": 5000, "skewness": -0.648, "kurtosis": -0.673, "shapiro_W": 0.928, "shapiro_p": 0.0, "likely_normal": true, "variable": "MajorAxis"}, {"column": "original_shape_Maximum2DDiameterColumn", "n": 5000, "skewness": -0.89, "kurtosis": 0.754, "shapiro_W": 0.9368, "shapiro_p": 0.0, "likely_normal": true, "variable": "Max2D-Col"}, {"column": "original_shape_Maximum2DDiameterRow", "n": 5000, "skewness": -0.409, "kurtosis": -1.226, "shapiro_W": 0.9083, "shapiro_p": 0.0, "likely_normal": true, "variable": "Max2D-Row"}, {"column": "original_shape_Maximum2DDiameterSlice", "n": 5000, "skewness": -0.197, "kurtosis": -0.673, "shapiro_W": 0.9798, "shapiro_p": 0.0, "likely_normal": true, "variable": "Max2D-Slc"}, {"column": "original_shape_Maximum3DDiameter", "n": 5000, "skewness": -0.761, "kurtosis": -0.385, "shapiro_W": 0.9258, "shapiro_p": 0.0, "likely_normal": true, "variable": "Max3D"}, {"column": "original_shape_MeshVolume", "n": 5000, "skewness": -0.403, "kurtosis": -0.713, "shapiro_W": 0.9617, "shapiro_p": 0.0, "likely_normal": true, "variable": "MeshVolume"}, {"column": "original_shape_MinorAxisLength", "n": 5000, "skewness": -0.805, "kurtosis": -0.602, "shapiro_W": 0.8898, "shapiro_p": 0.0, "likely_normal": true, "variable": "MinorAxis"}, {"column": "original_shape_Sphericity", "n": 5000, "skewness": 1.94, "kurtosis": 3.892, "shapiro_W": 0.7433, "shapiro_p": 0.0, "likely_normal": false, "variable": "Sphericity"}, {"column": "original_shape_SurfaceArea", "n": 5000, "skewness": -0.677, "kurtosis": -0.59, "shapiro_W": 0.9272, "shapiro_p": 0.0, "likely_normal": true, "variable": "SurfArea"}, {"column": "original_shape_SurfaceVolumeRatio", "n": 5000, "skewness": 1.636, "kurtosis": 9.663, "shapiro_W": 0.9186, "shapiro_p": 0.0, "likely_normal": false, "variable": "SVR"}, {"column": "rib_length", "n": 5000, "skewness": -0.877, "kurtosis": -0.403, "shapiro_W": 0.8866, "shapiro_p": 0.0, "likely_normal": true, "variable": "rib_length"}]}};
+  const embedOpt = {"actions": {"export": true, "source": false, "compiled": false, "editor": false}, "scaleFactor": 6.25, "mode": "vega-lite"};
+  vegaEmbed('#vis', spec, embedOpt).catch(console.error);
+</script>
+</body>
+</html>
