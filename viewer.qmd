@@ -1,0 +1,24 @@
+---
+title: "Interactive SSM Viewer"
+page-layout: full
+---
+
+The viewer renders the cohort mean rib cage as a surface and deforms it with the [statistical shape model](manuscript.qmd#statistical-shape-model).
+
+- **PC Explorer** – one slider per retained principal component, scaled in cohort standard deviations. Moving a slider shows the deformation that mode encodes; the ±2σ end-points of the leading modes are shown as static figures in the [manuscript](manuscript.qmd#fig-pc-deformations).
+- **Metadata Explorer** – choose sex and smoking status and set age, height, body mass, body fat, and pack-years. The geometry generator ([Methods §2.8.6](manuscript.qmd#sec-geometry-generator)) predicts the PC scores for that profile and reconstructs the corresponding cage; a banner warns when the profile lies outside the range covered by the cohort.
+- **Synthetic sample** – draws a cohort-typical rib cage for the current metadata profile (the generator's prediction plus a random draw from the shape variation that demographics do not explain) and overlays it on the current shape; click again to re-roll.
+- **Reset to mean** returns every control to the cohort mean.
+
+```{=html}
+<iframe src="results/_latest/ssm_viewer/viewer_surface_public.html"
+        width="100%" height="800" loading="lazy"
+        title="SSM viewer"
+        style="border: 1px solid #ccc; border-radius: 4px;"></iframe>
+```
+
+::: {.callout-note}
+The viewer is a self-contained HTML/JS bundle. The Plotly library is loaded from `cdn.plot.ly` on first view, so an internet connection is required.
+:::
+
+[Open the viewer in its own tab →](results/_latest/ssm_viewer/viewer_surface_public.html)

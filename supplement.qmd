@@ -1,0 +1,523 @@
+---
+title: "Supplementary Methods and Figures"
+# Section numbers (S1, S1.1, …) come from the filter, which prefixes heading
+# text directly so HTML and docx carry identical S-numbers; pandoc's own
+# numbering stays off to avoid double-numbering.
+number-sections: false
+filters:
+  - scripts/supplement_numbering.lua
+# Float titles are spelled out ("Supplementary Figure 1") because Quarto's
+# caption composition puts a non-breaking space between title and number,
+# which renders a bare "Figure S" title as "Figure S 1".
+crossref:
+  fig-title: "Supplementary Figure"
+  tbl-title: "Supplementary Table"
+---
+
+```{python}
+#| echo: false
+#| output: false
+import sys
+from pathlib import Path
+sys.path.insert(0, "scripts")
+from results_loader import Results
+r = Results(Path("results/_latest"))
+```
+
+# Cohort and ingestion diagnostics {#sec-suppl-cohort}
+
+## Per-participant rib-side count distribution {#sec-suppl-rib-yield}
+
+```{python}
+#| label: tbl-suppl-rib-count
+#| tbl-cap: "Distribution of per-participant rib-side counts among the candidate cohort. The inclusion criterion ([Methods §2.5](manuscript.qmd#cohort-definition-and-quality-control)) requires exactly 24 rib sides; participants with different counts are excluded. Low counts (≤ 23) are consistent with transitional thoracolumbar vertebrae, missing segmentations or merged segmentations; high counts (≥ 25) with supernumerary cervical or lumbar ribs."
+#| echo: false
+#| output: asis
+print(r.rib_count_distribution_md())
+```
+
+## Per-variable missingness across the joined cohort {#sec-suppl-missingness}
+
+::: {#fig-suppl-missingness}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_missingness"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_missingness"))
+```
+:::
+
+**Missingness across baseline metadata variables.** Computed on the inner-joined cohort (n = `{python} r.n_join_inner()`) prior to quality-control exclusions.
+
+:::
+
+## Predictor collinearity {#sec-suppl-corr-metadata}
+
+::: {#fig-suppl-corr-metadata}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_corr_metadata"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_corr_metadata"))
+```
+:::
+
+**Pairwise Pearson correlations between continuous metadata predictors.** Body mass, BMI, and body-fat percentage cluster tightly, motivating the multivariable adjusted regression design of [Methods §2.8.2](manuscript.qmd#sec-adjusted-analyses) rather than relying on bivariate associations.
+
+:::
+
+## Descriptor collinearity {#sec-suppl-corr-descriptors}
+
+::: {#fig-suppl-corr-descriptors}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_corr_descriptors"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_corr_descriptors"))
+```
+:::
+
+**Pairwise Pearson correlations between per-rib shape descriptors.** Computed on participant-level per-rib means. Voxel volume was dropped at the analysis stage ([Methods §2.6](manuscript.qmd#per-rib-shape-descriptors)) due to conceptual identity (and perfect collinearity) with mesh volume.
+
+:::
+
+## Distribution and normality of shape descriptors {#sec-suppl-dist}
+
+::: {#fig-suppl-dist-hist-qq}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_dist_hist_qq"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_dist_hist_qq"))
+```
+:::
+
+**Per-descriptor histograms with Q-Q overlays.** Q-Q axes are z-standardised so that the y = x reference line denotes exact normality.
+
+:::
+
+::: {#fig-suppl-normality}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_normality"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_normality"))
+```
+:::
+
+**Shapiro–Wilk normality summary across shape descriptors.**
+
+:::
+
+## Predictor distributions by sex {#sec-suppl-by-sex}
+
+::: {#fig-suppl-metadata-by-sex}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_metadata_by_sex"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_metadata_by_sex"))
+```
+:::
+
+**Distribution of each continuous metadata predictor stratified by biological sex.** Companion view to [Table 1](manuscript.qmd#tbl-cohort).
+
+:::
+
+::: {#fig-suppl-smoking-by-sex}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_smoking_by_sex"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_smoking_by_sex"))
+```
+:::
+
+**Smoking-status composition stratified by biological sex.** Companion view to [Table 1](manuscript.qmd#tbl-cohort).
+
+:::
+
+# Shape-model variance and convergence {#sec-suppl-modes}
+
+## Scree plot {#sec-suppl-scree}
+
+::: {#fig-suppl-scree}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_scree"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_scree"))
+```
+:::
+
+**Per-mode and cumulative explained variance.** Variance retained at the truncation threshold (`{python} r.variance_threshold_pct()`) is annotated; `{python} r.pc_count()` modes were carried forward into all downstream PC-score analyses.
+
+:::
+
+## Generalized Procrustes Analysis convergence {#sec-suppl-gpa-conv}
+
+::: {#fig-suppl-gpa-conv}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_gpa_conv"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_gpa_conv"))
+```
+:::
+
+**GPA convergence trace.** Mean-shape change per iteration of the Generalized Procrustes Analysis described in [Methods §2.7.3](manuscript.qmd#generalized-procrustes-analysis-and-principal-component-analysis), with the convergence threshold marked.
+
+:::
+
+# Descriptor-level associations {#sec-suppl-descriptor-assoc}
+
+## Adjusted OLS effect maps {#sec-suppl-adj-heatmaps}
+
+::: {#fig-suppl-adj}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_adj"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_adj"))
+```
+:::
+
+**Adjusted (multivariable) OLS effect maps.** **(A)** Standardised β and **(B)** Frisch–Waugh–Lovell partial R² per (shape descriptor × predictor) pair from the single adjusted model ([Methods §2.8.2](manuscript.qmd#sec-adjusted-analyses)) – the mutually-adjusted counterpart to the [main-text targeted maps](manuscript.qmd#fig-targeted). FDR-masked at q ≥ 0.05; cluster-robust standard errors at the participant level.
+
+:::
+
+## Adjusted OLS standardised β forest plot {#sec-suppl-adj-forest}
+
+::: {#fig-suppl-adj-forest}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_adj_forest"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_adj_forest"))
+```
+:::
+
+**Adjusted OLS standardised β forest plot.** 95% confidence intervals on the standardised slope per (predictor, descriptor) pair from the adjusted model.
+
+:::
+
+## Unadjusted (marginal) standardised β heatmap {#sec-suppl-unadj}
+
+::: {#fig-suppl-unadj-beta}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_unadj_beta"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_unadj_beta"))
+```
+:::
+
+**Unadjusted (marginal) standardised β heatmap.** Per-predictor marginal slope for each (shape descriptor × predictor) pair, including BMI (unadjusted layer only) – the total-association counterpart to the adjusted and targeted maps.
+
+:::
+
+## Per-descriptor rib-position maps {#sec-suppl-shape-by-rib}
+
+::: {#fig-suppl-rib-length-by-level}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_rib_length_by_level"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_rib_length_by_level"))
+```
+:::
+
+**Mean rib length by anatomical level and side.**
+
+:::
+
+# PC score associations {#sec-suppl-pc-assoc}
+
+## Adjusted PC association map {#sec-suppl-pc-adjusted}
+
+::: {#fig-suppl-pc-regression}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_pc_regression"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_pc_regression"))
+```
+:::
+
+**Adjusted (multivariable) associations with the leading PC scores.** Standardised β from the per-PC adjusted (HC3) OLS against the seven covariates – the mutually-adjusted counterpart to the [main-text targeted map](manuscript.qmd#fig-pc-regression-targeted).
+
+:::
+
+## PC β-vector field {#sec-suppl-pc-beta-vectors}
+
+::: {#fig-suppl-pc-beta-vectors}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_pc_beta_vectors"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_pc_beta_vectors"))
+```
+:::
+
+**Per-PC β-vector field.** Each predictor's standardised β as an arrow in PC space; solid arrows are the unadjusted (marginal) effect, dashed arrows the adjusted effect. Complements the magnitude ranking of the heatmaps with effect direction.
+
+:::
+
+## Marginal and adjusted PC sex pair-plots {#sec-suppl-pc-pairs-sex}
+
+::: {#fig-suppl-pc-scores-sex}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_pc_scores_sex"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_pc_scores_sex"))
+```
+:::
+
+**PC score pair-plot by sex (marginal).** The unadjusted by-sex pair-plot; companion to the [targeted view in the main text](manuscript.qmd#fig-pc-scores-pairs-sex).
+
+:::
+
+::: {#fig-suppl-pc-scores-sex-adj}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_pc_scores_sex_adjusted"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_pc_scores_sex_adjusted"))
+```
+:::
+
+**PC score pair-plot by sex (adjusted).** PC scores residualised on all covariates except sex; the PC1 separation shrinks relative to the marginal and targeted views, visualising the body-composition mediation of the sex difference.
+
+:::
+
+## PC scores pair-plot by body fat {#sec-suppl-pc-pairs-bodyfat}
+
+::: {#fig-suppl-pc-scores-bodyfat}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_pc_scores_bodyfat"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_pc_scores_bodyfat"))
+```
+:::
+
+**PC score pair-plot coloured by body-fat percentage.** Off-diagonal bins coloured by mean body-fat percentage, showing the body-composition gradient aligning with the leading modes.
+
+:::
+
+## Per-rib PC loadings {#sec-suppl-pc-loadings}
+
+::: {#fig-suppl-pc-loadings}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_pc_loadings"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_pc_loadings"))
+```
+:::
+
+**Per-rib loadings of the leading principal components.** Loadings of each PC onto each of the 24 rib positions.
+
+:::
+
+## PC scores pair-plot by smoking status {#sec-suppl-pc-pairs-smoking}
+
+::: {#fig-suppl-pc-pairs-smoking}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_pc_pairs_smoking"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_pc_pairs_smoking"))
+```
+:::
+
+**PC score pair-plot stratified by smoking status.** Companion view to the [by-sex pair-plot](manuscript.qmd#fig-pc-scores-pairs-sex) in the main text. Smoking is shown here as the descriptive three-level variable (Never / Ex-smoker / Current); the association models use the binary ever-smoker contrast. Marginal density panels show the per-PC distribution per smoking-status group.
+
+:::
+
+# Anatomical interpretation of principal modes {#sec-suppl-pc-anatomy}
+
+## PC-anchored anatomical maps (PC4 onwards) {#sec-suppl-pc-anatomy-pcs}
+
+::: {#fig-suppl-pc-anatomy layout-ncol="1"}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_pc_anatomy_pcs"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_pc_anatomy_pcs"))
+```
+:::
+
+**Per-PC anatomical cross-walk (PC4 onwards).** Standardised slope of every (rib position × shape descriptor) pair on each PC score (cohort-z-scored), rendered as 24-row × 14-column heatmaps. Print shows PC4–PC7; the interactive supplement browses all `{python} r.pc_count()` modes. PC1–PC3 are in the [main-text anatomical maps](manuscript.qmd#fig-pc-anatomy).
+
+:::
+
+## Descriptor-anchored anatomical maps {#sec-suppl-pc-anatomy-descriptors}
+
+::: {#fig-suppl-descr layout-ncol="1"}
+
+::: {.content-visible when-format="html"}
+```{python}
+#| output: asis
+print(r.fig_html("fig_suppl_pc_anatomy_descriptors"))
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{python}
+#| output: asis
+print(r.fig_print("fig_suppl_pc_anatomy_descriptors"))
+```
+:::
+
+**Per-descriptor anatomical cross-walk.** Standardised slope of one shape descriptor at every rib position on each PC score, one panel per descriptor. Print shows all 14 descriptors; the interactive supplement browses the same set.
+
+:::

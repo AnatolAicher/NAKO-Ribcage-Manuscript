@@ -1,0 +1,12 @@
+{
+  "hash": "a37a0cb425f824de5247b8be6dd87a28",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"Data and Code Availability\"\n---\n\n\n\n## Source code\n\nThe complete pipeline – mesh extraction, descriptor computation, surface registration, statistical shape modelling, association analyses, and figure generation – is open source:\n\n<https://github.com/AnatolAicher/NAKO-Ribcage-SSM>\n\nThe repository README documents the environment, the preset-driven pipeline driver (`scripts/run_pipeline.py`), and the run-directory layout; the Scalismo registration stage lives under `environment/scalismo_ssm/`.\n\n## Canonical run\n\nFigures and numbers on this site were rendered from pipeline run `full_analysis-ab26a74` (2026-08-09 22:55 UTC), code revision [`ab26a74`](https://github.com/AnatolAicher/NAKO-Ribcage-SSM/commit/ab26a747d572709ef641982f23e5271d17124081).\n\n\nRuns are configured by a YAML preset. The template for the full-cohort analysis is [`presets/full_analysis.example.yaml`](https://github.com/AnatolAicher/NAKO-Ribcage-SSM/blob/main/presets/full_analysis.example.yaml); [`presets/example.yaml`](https://github.com/AnatolAicher/NAKO-Ribcage-SSM/blob/main/presets/example.yaml) documents every key.\n\n## Shape-model release\n\nThe mean shape, the principal-component modes, and the demographics-to-shape generator ([Methods §2.8.6](manuscript.qmd#sec-geometry-generator)) are released as a 6 MB bundle with a NumPy-only loader in the [`model/`](https://github.com/AnatolAicher/NAKO-Ribcage-SSM/tree/main/model) directory of the code repository and archived on Zenodo under DOI [10.5281/zenodo.22230693](https://doi.org/10.5281/zenodo.22230693). The [SSM Viewer](viewer.qmd) embeds the same model.\n\n## Participant-level data\n\nDue to data privacy regulations in the context of the NAKO cohort, the individual-level metadata and imaging data used in this project cannot be released publicly. NAKO data can be obtained via the electronic application portal at <https://www.nako.de/transferhub>. Specific derived data may be available on request from the corresponding author (<anatol.aicher@uzh.ch>), subject to NAKO data access policies.\n\n",
+    "supporting": [
+      "data_files/figure-html"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

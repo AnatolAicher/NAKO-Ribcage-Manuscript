@@ -1,0 +1,17 @@
+/* NAKO Ribcage SSM – site styles */
+
+.run-info {
+  font-size: 0.9em;
+  color: #666;
+  border-top: 1px solid #eee;
+  padding-top: 0.5rem;
+  margin-top: 2rem;
+}
+
+iframe {
+  display: block;
+  margin: 1rem 0;
+  width: 100%;
+  max-width: 100%;
+  border: 0;
+}

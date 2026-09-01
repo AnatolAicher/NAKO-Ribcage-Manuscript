@@ -1,0 +1,287 @@
+# Single source of truth for figure inclusion, consumed by:
+#   - results_loader.Results.fig_html / fig_print  → emit format-appropriate markup
+#   - validate_figures.py                          → pre-render existence check
+#   - prepare_print_figures.py                     → build the A4-capped print PNG tree
+#
+# Per figure, `kind` selects how the two builds diverge:
+#   single    – html embeds the interactive .html twin (iframe); print uses .png.
+#   static    – no .html twin; both builds use .png/.svg.
+#   composite – curated multi-panel; static panels in BOTH builds (preserves sub-refs).
+#   family    – per-item directory + meta-wrapper index.html; html embeds the index
+#               (browse every item), print emits only `print_items` as sub-panels.
+#   html_only – interactive viewer with no print form; omitted from print.
+#
+# `context` (main | supplement | viewer) drives the print-PNG resolution: supplement
+# figures resolve to 300-DPI downscaled copies under `print_root`, main figures to
+# 600-DPI copies; both are A4-capped by prepare_print_figures.py.
+
+defaults:
+  results_root: results/_latest   # web/interactive figure root (a quarto resource)
+  print_root:   _print            # A4-capped print PNG tree (NOT a quarto resource)
+  iframe_height: "640px"
+  # A4 printable box (mm, w×h) and per-context export DPI for the print PNG prep.
+  a4_box_mm: [160, 240]
+  print_dpi_main: 600
+  print_dpi_supplement: 300
+
+# ── Main manuscript ─────────────────────────────────────────────────────────
+figures:
+  fig_methodology:
+    kind: static
+    stem: visualizations/figures/methodology
+    has: [png, svg, pdf]
+    context: main
+    alt: "Ten-panel pipeline overview from raw MRI through segmentation, mesh extraction, descriptors, mesh-to-template registration, GPA, and PCA."
+
+  fig_mean_shape:
+    kind: static
+    stem: ssm_pca/figures/mean_shape_views
+    has: [png]
+    context: main
+    alt: "Coronal-anterior, sagittal-right, and axial-superior renderings of the cohort-mean rib cage, with left ribs in blue and right ribs in red."
+
+  fig_pc_deformations:
+    kind: single
+    stem: ssm_pca/figures/pc_deformations_surface
+    has: [png, html]
+    context: main
+    alt: "±2σ surface deformations of the leading principal-component modes relative to the mean shape."
+
+  fig_styner:
+    kind: single
+    stem: ssm_qa_metrics/figures/eval_styner
+    has: [png, svg, html]
+    context: main
+    alt: "Three-panel Styner triad of compactness, generalisation, and specificity as functions of the number of retained PCA modes, for the whole-cage shape vector and each of the 24 per-rib subspaces."
+
+  fig_pc_regression_targeted:
+    kind: single
+    stem: ssm_pca/figures/pc_regression_targeted
+    has: [png, svg, html]
+    context: main
+    alt: "Heatmap of standardised β coefficients from the per-PC targeted causal (DAG) models against the seven covariates (sex, age, height, body mass, body fat %, ever-smoker, pack-years), shown for the leading seven PCs."
+
+  fig_pc_regression:
+    kind: single
+    stem: ssm_pca/figures/pc_regression_surface
+    has: [png, svg, html]
+    context: supplement
+    alt: "Heatmap of standardised β coefficients from the per-PC multivariable (adjusted, HC3) OLS against the seven covariates (sex, age, height, body mass, body fat %, ever-smoker, pack-years), shown for the leading seven PCs."
+
+  fig_pc_scores_sex_dag:
+    kind: single
+    stem: ssm_pca/figures/pc_scores_pairs_dag_sex
+    has: [png, svg, html]
+    context: main
+    alt: "Lower-triangular pair-plot of PC1–PC7 scores coloured by sex under the targeted (DAG) total-effect specification, with diagonal density panels showing strong separation along PC1."
+
+  fig_pc_scores_dag_continuous:
+    kind: composite
+    context: main
+    has: [png, svg, html]
+    # HTML embeds the four interactive pair-plot twins as a 2-up grid of iframe
+    # sub-floats (fig_html → _composite_iframes). The docx/print build instead uses
+    # the pre-baked assets/pc_scores_dag_grid.png (scripts/make_pairplot_grid.py),
+    # wired directly in manuscript.qmd's print branch – so fig_print is not used here.
+    iframe_height: "520px"
+    panels:
+      - { sub_id: fig-pcscores-dag-age,     stem: ssm_pca/figures/pc_scores_pairs_dag_age,         label: "A – age.",             alt: "Lower-triangular PC1–PC7 pair-plot with off-diagonal bins coloured by mean age under the targeted specification." }
+      - { sub_id: fig-pcscores-dag-height,  stem: ssm_pca/figures/pc_scores_pairs_dag_height_cm,    label: "B – standing height.", alt: "Lower-triangular PC1–PC7 pair-plot with off-diagonal bins coloured by mean standing height under the targeted specification." }
+      - { sub_id: fig-pcscores-dag-weight,  stem: ssm_pca/figures/pc_scores_pairs_dag_weight_kg,    label: "C – body mass.",       alt: "Lower-triangular PC1–PC7 pair-plot with off-diagonal bins coloured by mean body mass under the targeted specification." }
+      - { sub_id: fig-pcscores-dag-bodyfat, stem: ssm_pca/figures/pc_scores_pairs_dag_body_fat_pct, label: "D – body-fat %.",      alt: "Lower-triangular PC1–PC7 pair-plot with off-diagonal bins coloured by mean body-fat percentage under the targeted specification." }
+
+  fig_pc_scores_sex:
+    kind: single
+    stem: ssm_pca/figures/pc_scores_pairs_sex
+    has: [png, svg, html]
+    context: supplement
+    alt: "Lower-triangular pair-plot of PC1–PC7 scores coloured by sex (marginal/unadjusted), with diagonal density panels showing strong bimodal separation along PC1."
+
+  fig_pc_scores_sex_adjusted:
+    kind: single
+    stem: ssm_pca/figures/pc_scores_pairs_adj_sex
+    has: [png, svg, html]
+    context: supplement
+    alt: "Lower-triangular pair-plot of PC1–PC7 scores residualised on all covariates except sex, coloured by sex; the PC1 separation shrinks relative to the marginal pair-plot, showing how much of the sex difference is mediated by body composition."
+
+  fig_pc_beta_vectors:
+    kind: single
+    stem: ssm_pca/figures/pc_beta_vectors
+    has: [png, svg, html]
+    context: supplement
+    alt: "Per-PC-pair vector field of each predictor's standardised β coefficient, with solid arrows for the unadjusted (marginal) effect and dashed arrows for the adjusted (partial) effect."
+
+  fig_suppl_pc_scores_bodyfat:
+    kind: single
+    stem: ssm_pca/figures/pc_scores_pairs_body_fat_pct
+    has: [png, svg, html]
+    context: supplement
+    alt: "Lower-triangular pair-plot of PC1–PC7 scores with off-diagonal bins coloured by mean body-fat percentage, showing the body-composition gradient aligning with the leading modes."
+
+  fig_targeted:
+    kind: composite
+    context: main
+    has: [png, svg, html]
+    panels:
+      - { sub_id: fig-targeted-beta, stem: adjusted/figures/targeted_heatmap_beta,       label: "Panel A – standardised β (targeted).",                alt: "Targeted causal (DAG) standardised β heatmap with 14 shape-descriptor rows and 7 predictor columns; diverging colour scale preserves effect direction; FDR-non-significant cells are blank." }
+      - { sub_id: fig-targeted-r2,   stem: adjusted/figures/targeted_heatmap_partial_r2, label: "Panel B – Frisch–Waugh–Lovell partial R² (targeted).", alt: "Targeted causal (DAG) partial R² heatmap with 14 shape-descriptor rows and 7 predictor columns; sequential colour scale quantifies each exposure's unique-variance contribution under its back-door adjustment set." }
+
+  fig_pc_anatomy:
+    kind: composite
+    context: main
+    has: [png, svg, html]
+    panels:
+      - { sub_id: fig-pc-anatomy-pc1, stem: radiomics_correlation/figures/per_pc/pc01_std, label: "Panel A – PC1.", alt: "Standardised β heatmap of the 14 per-rib shape descriptors against PC1, with rows for each (rib level, side) and columns for each descriptor; FDR-non-significant cells are blank." }
+      - { sub_id: fig-pc-anatomy-pc2, stem: radiomics_correlation/figures/per_pc/pc02_std, label: "Panel B – PC2.", alt: "Standardised β heatmap of the 14 per-rib shape descriptors against PC2." }
+      - { sub_id: fig-pc-anatomy-pc3, stem: radiomics_correlation/figures/per_pc/pc03_std, label: "Panel C – PC3.", alt: "Standardised β heatmap of the 14 per-rib shape descriptors against PC3." }
+
+  # ── Supplement ──────────────────────────────────────────────────────────
+  fig_suppl_missingness:
+    kind: single
+    stem: ingestion/figures/missingness
+    has: [png, svg, html]
+    context: supplement
+    alt: "Per-variable missingness heatmap across the joined cohort, prior to exclusions."
+
+  fig_suppl_corr_metadata:
+    kind: single
+    stem: ingestion/figures/corr_metadata
+    has: [png, svg, html]
+    context: supplement
+    alt: "Pearson correlation heatmap between continuous metadata predictors."
+
+  fig_suppl_corr_descriptors:
+    kind: single
+    stem: ingestion/figures/corr_shape_params
+    has: [png, svg, html]
+    context: supplement
+    alt: "Pearson correlation heatmap between per-rib PyRadiomics shape descriptors."
+
+  fig_suppl_dist_hist_qq:
+    kind: single
+    stem: ingestion/figures/distribution_hist_qq
+    has: [png, svg, html]
+    context: supplement
+    alt: "Per-descriptor histograms with overlaid Q-Q plots against the standard normal."
+
+  fig_suppl_normality:
+    kind: single
+    stem: ingestion/figures/normality
+    has: [png, svg, html]
+    context: supplement
+    alt: "Shapiro–Wilk normality test results across shape descriptors."
+
+  fig_suppl_metadata_by_sex:
+    kind: single
+    stem: visualizations/figures/metadata_by_sex
+    has: [png, svg, html]
+    context: supplement
+    alt: "Distribution of each continuous metadata predictor stratified by biological sex."
+
+  fig_suppl_smoking_by_sex:
+    kind: single
+    stem: visualizations/figures/smoking_by_sex
+    has: [png, svg, html]
+    context: supplement
+    alt: "Smoking-status composition stratified by biological sex."
+
+  fig_suppl_scree:
+    kind: single
+    stem: ssm_pca/figures/scree_surface
+    has: [png, svg, html]
+    context: supplement
+    alt: "Per-mode and cumulative explained variance for the surface SSM principal component analysis."
+
+  fig_suppl_gpa_conv:
+    kind: single
+    stem: ssm_pca/figures/gpa_convergence
+    has: [png, svg, html]
+    context: supplement
+    alt: "Mean-shape change between successive GPA iterations until the convergence threshold is met."
+
+  fig_suppl_adj_forest:
+    kind: single
+    stem: adjusted/figures/adj_forest_plots
+    has: [png, svg, html]
+    context: supplement
+    alt: "Adjusted OLS standardised β forest plot with 95% confidence intervals per (predictor, descriptor) pair."
+
+  fig_suppl_unadj_beta:
+    kind: single
+    stem: adjusted/figures/unadj_heatmap_beta
+    has: [png, svg, html]
+    context: supplement
+    alt: "Unadjusted (marginal) standardised β heatmap with 14 shape-descriptor rows and 8 predictor columns."
+
+  fig_adj:
+    kind: composite
+    context: supplement
+    has: [png, svg, html]
+    panels:
+      - { sub_id: fig-adj-beta, stem: adjusted/figures/adj_heatmap_beta,       label: "Panel A – standardised β.",                    alt: "Adjusted OLS standardised β heatmap with 14 shape-descriptor rows and 7 predictor columns; diverging colour scale preserves effect direction; FDR-non-significant cells are blank." }
+      - { sub_id: fig-adj-r2,   stem: adjusted/figures/adj_heatmap_partial_r2, label: "Panel B – Frisch–Waugh–Lovell partial R².", alt: "Adjusted OLS partial R² heatmap with 14 shape-descriptor rows and 7 predictor columns; sequential colour scale quantifies unique-variance contribution net of all other model terms." }
+
+  fig_suppl_rib_length_by_level:
+    kind: single
+    stem: visualizations/figures/rib_length_by_level
+    has: [png, svg, html]
+    context: supplement
+    alt: "Mean rib length by anatomical level and side, with the floating ribs visibly shorter than the upper ribs."
+
+  fig_suppl_pc_loadings:
+    kind: single
+    stem: ssm_pca/figures/pc_loadings_per_rib
+    has: [png, svg, html]
+    context: supplement
+    alt: "Per-rib loadings for the leading principal components, showing which correspondence-point variation each mode captures along the cage."
+
+  fig_suppl_pc_pairs_smoking:
+    kind: single
+    stem: ssm_pca/figures/pc_scores_pairs_smoking_status
+    has: [png, svg, html]
+    context: supplement
+    alt: "Lower-triangular pair-plot of PC1–PC7 scores coloured by smoking status (Never, Ex-smoker, Current)."
+
+  # Per-PC anatomical maps: main text shows PC1–3 (fig_pc_anatomy); the supplement
+  # prints PC4–PC7 as sub-panels and exposes all modes via the meta-wrapper in HTML.
+  fig_suppl_pc_anatomy_pcs:
+    kind: family
+    dir: radiomics_correlation/figures/per_pc
+    item_pattern: "pc{:02d}_std"
+    item_count: 28
+    print_items: [4, 5, 6, 7]
+    index: index.html
+    has: [png, svg, html]
+    context: supplement
+    sub_id_prefix: fig-suppl-pc-anatomy
+    item_label: "PC{n}"
+    alt: "Per-PC anatomical cross-walk: standardised β heatmaps of the 14 per-rib shape descriptors against each principal-component score."
+
+  # Descriptor-anchored maps: print all 14 named descriptors; HTML browses them via the wrapper.
+  fig_suppl_pc_anatomy_descriptors:
+    kind: family
+    dir: radiomics_correlation/figures/per_feature
+    items: [Elongation_native, Flatness_native, LeastAxis_native, MajorAxis_native,
+            Max2D-Col_native, Max2D-Row_native, Max2D-Slc_native, Max3D_native,
+            MeshVolume_native, MinorAxis_native, Sphericity_native, SVR_native,
+            SurfArea_native, rib_length_native]
+    print_items: all
+    index: index.html
+    has: [png, svg, html]
+    context: supplement
+    sub_id_prefix: fig-suppl-descr
+    alt: "Per-descriptor anatomical cross-walk: standardised β heatmaps of one shape descriptor at each rib position against each PC score."
+
+  # ── Interactive-only (no print form) ──────────────────────────────────────
+  fig_viewer_surface:
+    kind: html_only
+    stem: ssm_viewer/viewer_surface_public
+    has: [html]
+    context: viewer
+    alt: "Interactive 3D rib-cage shape-model viewer with per-PC sliders and metadata controls."
+
+# Tables are rendered directly by results_loader.py from these CSVs; listed here so
+# validate_figures.py confirms they resolve before render.
+tables:
+  table1_metadata: ingestion/table1_metadata.csv
+  table1_shape:    ingestion/table1_shape.csv

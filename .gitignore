@@ -1,0 +1,12 @@
+# Build outputs
+/.quarto/
+/_site/
+/_docx/
+/_print/
+**/*.quarto_ipynb
+
+# Pipeline run directories (multi-GB; results/_latest symlinks into them)
+/results/
+
+__pycache__/
+.DS_Store

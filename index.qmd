@@ -1,0 +1,48 @@
+---
+title: "NAKO Ribcage SSM"
+subtitle: "Statistical and surface-based shape modelling of the human rib cage"
+---
+
+```{python}
+#| echo: false
+#| output: false
+import sys
+from pathlib import Path
+sys.path.insert(0, "scripts")
+from results_loader import Results
+from site_meta import REPO_URL, run_info_md
+r = Results(Path("results/_latest"))
+```
+
+This site is the interactive companion to the manuscript *How Sex, Age, Adiposity, and Smoking Shape the Human Rib Cage: Evidence from 26,275 Whole-Body MRIs across the German National Cohort (NAKO)*. It hosts the full text and supplement with interactive versions of every figure, a browser-based viewer for the statistical shape model, and pointers to the source code and the released model.
+
+## Summary
+
+We built a surface-based statistical shape model (SSM) of the complete 24-rib cage from `{python} r.n_ssm_patients()` standardised whole-body MRI scans of adults aged `{python} r.age_range()` years in the population-based German National Cohort (NAKO). Ribs were segmented with a deep-learning pipeline, reconstructed as per-rib surface meshes, brought into dense vertex-wise correspondence by Gaussian-process morphable registration, and summarised by generalised Procrustes analysis and principal component analysis (PCA). Fourteen per-rib geometric descriptors link the abstract PCA modes to named shape features, and associations with sex, age, body size and composition, and smoking exposure were estimated by multivariable regression with false-discovery-rate control.
+
+Shape variation is strongly concentrated: `{python} r.pc_count()` modes capture `{python} r.variance_threshold_pct()` of the total variance, and the first three alone account for `{python} r.pc_cumulative_variance_pct(3)` (PC1 `{python} r.pc_variance_pct(1)`, PC2 `{python} r.pc_variance_pct(2)`, PC3 `{python} r.pc_variance_pct(3)`). They admit consistent anatomical readings – a sexually dimorphic axis (PC1; Cohen's d = `{python} r.pc_sex_d(1)` between the sexes), a slender-versus-stout body-habitus contrast (PC2), and a free-rib-size axis at ribs 11–12 (PC3). Body mass and body-fat percentage are the dominant modifiable correlates of rib-cage shape, whereas the association with cumulative smoking exposure is comparatively small.
+
+## On this site
+
+| Page | Content |
+|:-----|:--------|
+| [Manuscript](manuscript.qmd) | Full text with interactive figures; also as [PDF](manuscript.pdf). |
+| [Supplement](supplement.qmd) | Supplementary methods, figures, and tables; also as [PDF](supplement.pdf). |
+| [SSM Viewer](viewer.qmd) | Deform the mean rib cage along principal components or from a demographic profile. |
+| [Data & Code](data.qmd) | Source code, canonical pipeline run, shape-model release, NAKO data access. |
+| [References](references.qmd) | Bibliography with DOI links and BibTeX download. |
+
+## Authors
+
+Anatol Aicher, Robert Graf, Jan Kirschke, Thomas Frauenfelder, Falko Ensle, Bjoern Menze, Josua Decker, Thomas Kröncke, Johannes Haubold, Steffen Ringhof, Fabian Bamberg, Carsten Oliver Schmidt, Mark Wielpütz, Michael Leitzmann, Stefan N. Willich, Thomas Keil, Thoralf Niendorf, Tobias Pischon, Christopher Schlett, and Hendrik Möller. Affiliations are listed on the [manuscript](manuscript.qmd) page. Correspondence: Anatol Aicher, <anatol.aicher@uzh.ch>.
+
+## Acknowledgement
+
+We thank all participants of the German National Cohort (NAKO) and the staff of this research initiative. Members and affiliations of the NAKO Investigator Consortium can be accessed via [www.nako.de/principal-investigators](https://www.nako.de/principal-investigators).
+
+::: {.run-info}
+```{python}
+#| output: asis
+print(run_info_md(r))
+```
+:::

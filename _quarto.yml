@@ -1,0 +1,65 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "*.qmd"
+  pre-render: scripts/validate_figures.py
+  # Quarto's resource globs do not expand through the results/_latest symlink,
+  # so the run-figure set (figures/**/*.{png,html} plus the public viewer) is
+  # copied into _site/ by the post-render script instead.
+  post-render:
+    - scripts/copy_site_resources.py
+    - scripts/finalize_docx.py
+  resources:
+    - assets/**
+    # The resource glob also matches inside the docx output dir; keep that
+    # tree and the supplement's Word styling template off the site.
+    - "!_docx/**"
+    - "!assets/reference.docx"
+
+# Cross-page links (page.qmd#anchor) become absolute site URLs in the Word and
+# PDF outputs; the HTML site keeps Quarto's relative links.
+filters:
+  - scripts/print_links.lua
+
+website:
+  title: "NAKO Ribcage SSM"
+  site-url: https://anatolaicher.github.io/NAKO-Ribcage-Manuscript/
+  description: "Statistical and surface-based shape modelling of the human rib cage from a large NAKO cohort."
+  navbar:
+    left:
+      - { text: "Home",        href: index.qmd }
+      - { text: "Manuscript",  href: manuscript.qmd }
+      - { text: "Supplement",  href: supplement.qmd }
+      - { text: "SSM Viewer",  href: viewer.qmd }
+      - { text: "Data & Code", href: data.qmd }
+      - { text: "References",  href: references.qmd }
+    right:
+      - icon: github
+        href: https://github.com/AnatolAicher/NAKO-Ribcage-SSM
+        aria-label: "Source code on GitHub"
+  page-footer:
+    center: "NAKO Ribcage SSM"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    css: assets/styles.css
+    link-external-newwindow: true
+    format-links: false
+  docx:
+    reference-doc: assets/reference.docx
+    toc: false
+    number-sections: true
+
+bibliography: references.bib
+csl: _csl/elsevier.csl
+
+execute:
+  freeze: auto
+  echo: false
+
+crossref:
+  fig-prefix: "Fig."
+  tbl-prefix: "Table"

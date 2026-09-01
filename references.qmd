@@ -1,0 +1,10 @@
+---
+title: "References"
+csl: _extensions/wjschne/apaquarto/apa.csl
+nocite: "@*"
+---
+
+Every work cited in the [manuscript](manuscript.qmd) and [supplement](supplement.qmd), listed alphabetically with DOI links. The BibTeX source is available as [references.bib](references.bib).
+
+::: {#refs}
+:::
