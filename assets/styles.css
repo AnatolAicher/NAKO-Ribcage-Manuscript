@@ -15,3 +15,21 @@ iframe {
   max-width: 100%;
   border: 0;
 }
+
+/* Citation block on the Home page and the cite box below the margin TOC. */
+.cite-pending {
+  color: #6c757d;
+}
+
+.cite-box {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.cite-box img {
+  height: 20px;
+  margin-bottom: 0.4rem;
+}

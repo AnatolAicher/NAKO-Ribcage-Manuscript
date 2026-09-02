@@ -21,6 +21,13 @@
     "text": "This site is the interactive companion to the manuscript How Sex, Age, Adiposity, and Smoking Shape the Human Rib Cage: Evidence from 26,275 Whole-Body MRIs across the German National Cohort (NAKO). It hosts the full text and supplement with interactive versions of every figure, a browser-based viewer for the statistical shape model, and pointers to the source code and the released model."
   },
   {
+    "objectID": "index.html#sec-cite",
+    "href": "index.html#sec-cite",
+    "title": "NAKO Ribcage SSM",
+    "section": "Cite this work",
+    "text": "Cite this work\nThe shape model and the code that produced it are archived on Zenodo; the concept DOI 10.5281/zenodo.22230693 always resolves to the latest version (version 1.1.0: 10.5281/zenodo.22237859).\n\nTextBibTeX\n\n\nAicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Kröncke T, Haubold J, Ringhof S, Bamberg F, Schmidt CO, Wielpütz M, Leitzmann M, Willich SN, Keil T, Niendorf T, Pischon T, Schlett C, Möller H. NAKO Human Ribcage Statistical Shape Model (version 1.1.0). Zenodo; 2026. https://doi.org/10.5281/zenodo.22230693\n\n\n@software{Aicher2026NAKORibcageSSM,\n  author    = {Aicher, Anatol and Graf, Robert and Kirschke, Jan and Frauenfelder, Thomas and\n               Ensle, Falko and Menze, Bjoern and Decker, Josua and Kr{\\\"o}ncke, Thomas and\n               Haubold, Johannes and Ringhof, Steffen and Bamberg, Fabian and Schmidt, Carsten Oliver and\n               Wielp{\\\"u}tz, Mark and Leitzmann, Michael and Willich, Stefan N. and Keil, Thomas and\n               Niendorf, Thoralf and Pischon, Tobias and Schlett, Christopher and M{\\\"o}ller, Hendrik},\n  title     = {{NAKO} Human Ribcage Statistical Shape Model},\n  version   = {1.1.0},\n  year      = {2026},\n  publisher = {Zenodo},\n  doi       = {10.5281/zenodo.22230693},\n  url       = {https://github.com/AnatolAicher/NAKO-Ribcage-SSM}\n}\n\n\n\n\n\nPreprint (medRxiv): forthcoming; the DOI will appear here once the preprint is posted.\nPeer-reviewed article: not yet published."
+  },
+  {
     "objectID": "index.html#summary",
     "href": "index.html#summary",
     "title": "NAKO Ribcage SSM",
