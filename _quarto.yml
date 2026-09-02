@@ -44,10 +44,17 @@ website:
   # Shown below the table of contents in the right margin of every page.
   margin-footer: |
     <div class="cite-box">
-    <a href="https://doi.org/10.5281/zenodo.22230693"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.22230693.svg" alt="DOI 10.5281/zenodo.22230693"></a><br>
-    <strong>Cite this work</strong><br>
-    Shape model and code: <a href="https://doi.org/10.5281/zenodo.22230693">10.5281/zenodo.22230693</a><br>
-    <span class="cite-pending">Preprint: forthcoming</span><br>
+    <strong>Cite this work</strong>
+    <dl>
+    <dt>Zenodo (model data):</dt>
+    <dd><a href="https://doi.org/10.5281/zenodo.22230693">10.5281/zenodo.22230693</a></dd>
+    <dt>GitHub (software):</dt>
+    <dd><a href="https://github.com/AnatolAicher/NAKO-Ribcage-SSM">AnatolAicher/NAKO-Ribcage-SSM</a></dd>
+    <dt>Preprint:</dt>
+    <dd class="cite-pending">tbd</dd>
+    <dt>Peer-reviewed article:</dt>
+    <dd class="cite-pending">tbd</dd>
+    </dl>
     <a href="index.html#sec-cite">Citation text and BibTeX</a>
     </div>
 
