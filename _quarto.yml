@@ -39,12 +39,24 @@ website:
         href: https://github.com/AnatolAicher/NAKO-Ribcage-SSM
         aria-label: "Source code on GitHub"
   page-footer:
-    center: "NAKO Ribcage SSM"
+    left: "NAKO Ribcage SSM"
+    center: 'Text and figures © 2026 the authors, <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>; build scripts <a href="https://github.com/AnatolAicher/NAKO-Ribcage-Manuscript/blob/main/scripts/LICENSE">MIT</a>.'
+  # Shown below the table of contents in the right margin of every page.
+  margin-footer: |
+    <div class="cite-box">
+    <a href="https://doi.org/10.5281/zenodo.22230693"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.22230693.svg" alt="DOI 10.5281/zenodo.22230693"></a><br>
+    <strong>Cite this work</strong><br>
+    Shape model and code: <a href="https://doi.org/10.5281/zenodo.22230693">10.5281/zenodo.22230693</a><br>
+    <span class="cite-pending">Preprint: forthcoming</span><br>
+    <a href="index.html#sec-cite">Citation text and BibTeX</a>
+    </div>
 
 format:
   html:
     theme: cosmo
     toc: true
+    code-copy: true
+    code-overflow: wrap
     css: assets/styles.css
     link-external-newwindow: true
     format-links: false

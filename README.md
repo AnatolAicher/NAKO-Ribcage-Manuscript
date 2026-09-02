@@ -10,6 +10,34 @@ Quarto sources of the manuscript, the supplement and the companion website for
   <https://github.com/AnatolAicher/NAKO-Ribcage-SSM>
   (DOI [10.5281/zenodo.22230693](https://doi.org/10.5281/zenodo.22230693))
 
+## Cite this work
+
+Shape model and code, archived on Zenodo (all versions: [10.5281/zenodo.22230693](https://doi.org/10.5281/zenodo.22230693); version 1.1.0: [10.5281/zenodo.22237859](https://doi.org/10.5281/zenodo.22237859)):
+
+```text
+Aicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Kröncke T, Haubold J, Ringhof S, Bamberg F, Schmidt CO, Wielpütz M, Leitzmann M, Willich SN, Keil T, Niendorf T, Pischon T, Schlett C, Möller H. NAKO Human Ribcage Statistical Shape Model (version 1.1.0). Zenodo; 2026. https://doi.org/10.5281/zenodo.22230693
+```
+
+```bibtex
+@software{Aicher2026NAKORibcageSSM,
+  author    = {Aicher, Anatol and Graf, Robert and Kirschke, Jan and Frauenfelder, Thomas and
+               Ensle, Falko and Menze, Bjoern and Decker, Josua and Kr{\"o}ncke, Thomas and
+               Haubold, Johannes and Ringhof, Steffen and Bamberg, Fabian and Schmidt, Carsten Oliver and
+               Wielp{\"u}tz, Mark and Leitzmann, Michael and Willich, Stefan N. and Keil, Thomas and
+               Niendorf, Thoralf and Pischon, Tobias and Schlett, Christopher and M{\"o}ller, Hendrik},
+  title     = {{NAKO} Human Ribcage Statistical Shape Model},
+  version   = {1.1.0},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.22230693},
+  url       = {https://github.com/AnatolAicher/NAKO-Ribcage-SSM}
+}
+```
+
+- *Preprint (medRxiv): forthcoming; the DOI will appear here once the preprint is posted.*
+- *Peer-reviewed article: not yet published.*
+
+
 ## Layout
 
 | Path | Content |
@@ -40,3 +68,11 @@ make publish     # full build, then quarto publish gh-pages
 ```
 
 `make -n` lists every target with its description.
+
+## Licence
+
+The manuscript, supplement, website text and figures are licensed under
+[CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/); the build
+scripts, Makefile and Quarto configuration under the [MIT License](scripts/LICENSE).
+[LICENSE](LICENSE) states the scope and lists the third-party components, which
+keep their own licences.
