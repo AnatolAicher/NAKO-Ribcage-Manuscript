@@ -33,3 +33,12 @@ iframe {
   height: 20px;
   margin-bottom: 0.4rem;
 }
+
+.cite-grid {
+  row-gap: 0.75rem;
+  align-items: start;
+}
+
+.cite-grid div.sourceCode {
+  margin: 0;
+}

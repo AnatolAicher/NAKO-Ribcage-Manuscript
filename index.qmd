@@ -16,43 +16,6 @@ r = Results(Path("results/_latest"))
 
 This site is the interactive companion to the manuscript *How Sex, Age, Adiposity, and Smoking Shape the Human Rib Cage: Evidence from 26,275 Whole-Body MRIs across the German National Cohort (NAKO)*. It hosts the full text and supplement with interactive versions of every figure, a browser-based viewer for the statistical shape model, and pointers to the source code and the released model.
 
-## Cite this work {#sec-cite}
-
-The shape model and the code that produced it are archived on Zenodo; the concept DOI [10.5281/zenodo.22230693](https://doi.org/10.5281/zenodo.22230693) always resolves to the latest version (version 1.1.0: [10.5281/zenodo.22237859](https://doi.org/10.5281/zenodo.22237859)).
-
-::: {.panel-tabset}
-
-### Text
-
-```{.text}
-Aicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Kröncke T, Haubold J, Ringhof S, Bamberg F, Schmidt CO, Wielpütz M, Leitzmann M, Willich SN, Keil T, Niendorf T, Pischon T, Schlett C, Möller H. NAKO Human Ribcage Statistical Shape Model (version 1.1.0). Zenodo; 2026. https://doi.org/10.5281/zenodo.22230693
-```
-
-### BibTeX
-
-```{.bibtex}
-@software{Aicher2026NAKORibcageSSM,
-  author    = {Aicher, Anatol and Graf, Robert and Kirschke, Jan and Frauenfelder, Thomas and
-               Ensle, Falko and Menze, Bjoern and Decker, Josua and Kr{\"o}ncke, Thomas and
-               Haubold, Johannes and Ringhof, Steffen and Bamberg, Fabian and Schmidt, Carsten Oliver and
-               Wielp{\"u}tz, Mark and Leitzmann, Michael and Willich, Stefan N. and Keil, Thomas and
-               Niendorf, Thoralf and Pischon, Tobias and Schlett, Christopher and M{\"o}ller, Hendrik},
-  title     = {{NAKO} Human Ribcage Statistical Shape Model},
-  version   = {1.1.0},
-  year      = {2026},
-  publisher = {Zenodo},
-  doi       = {10.5281/zenodo.22230693},
-  url       = {https://github.com/AnatolAicher/NAKO-Ribcage-SSM}
-}
-```
-
-:::
-
-::: {.cite-pending}
-- **Preprint (medRxiv):** forthcoming; the DOI will appear here once the preprint is posted.
-- **Peer-reviewed article:** not yet published.
-:::
-
 ## Summary
 
 We built a surface-based statistical shape model (SSM) of the complete 24-rib cage from `{python} r.n_ssm_patients()` standardised whole-body MRI scans of adults aged `{python} r.age_range()` years in the population-based German National Cohort (NAKO). Ribs were segmented with a deep-learning pipeline, reconstructed as per-rib surface meshes, brought into dense vertex-wise correspondence by Gaussian-process morphable registration, and summarised by generalised Procrustes analysis and principal component analysis (PCA). Fourteen per-rib geometric descriptors link the abstract PCA modes to named shape features, and associations with sex, age, body size and composition, and smoking exposure were estimated by multivariable regression with false-discovery-rate control.
@@ -76,6 +39,66 @@ Anatol Aicher, Robert Graf, Jan Kirschke, Thomas Frauenfelder, Falko Ensle, Bjoe
 ## Acknowledgement
 
 We thank all participants of the German National Cohort (NAKO) and the staff of this research initiative. Members and affiliations of the NAKO Investigator Consortium can be accessed via [www.nako.de/principal-investigators](https://www.nako.de/principal-investigators).
+
+## Cite this work {#sec-cite}
+
+::: {.grid .cite-grid}
+
+::: {.g-col-12 .g-col-md-3}
+**Zenodo (model data)**
+:::
+
+::: {.g-col-12 .g-col-md-9}
+```{.default}
+Aicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Kröncke T, Haubold J, Ringhof S, Bamberg F, Schmidt CO, Wielpütz M, Leitzmann M, Willich SN, Keil T, Niendorf T, Pischon T, Schlett C, Möller H. NAKO Human Ribcage Statistical Shape Model (version 1.1.0) [data set]. Zenodo; 2026. https://doi.org/10.5281/zenodo.22230693
+```
+:::
+
+::: {.g-col-12 .g-col-md-3}
+**GitHub (software)**
+:::
+
+::: {.g-col-12 .g-col-md-9}
+```{.default}
+Aicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Kröncke T, Haubold J, Ringhof S, Bamberg F, Schmidt CO, Wielpütz M, Leitzmann M, Willich SN, Keil T, Niendorf T, Pischon T, Schlett C, Möller H. NAKO Human Ribcage Statistical Shape Model (version 1.1.0) [software]. GitHub; 2026. https://github.com/AnatolAicher/NAKO-Ribcage-SSM
+```
+:::
+
+::: {.g-col-12 .g-col-md-3}
+**Preprint**
+:::
+
+::: {.g-col-12 .g-col-md-9}
+[tbd]{.cite-pending}
+:::
+
+::: {.g-col-12 .g-col-md-3}
+**Peer-reviewed article**
+:::
+
+::: {.g-col-12 .g-col-md-9}
+[tbd]{.cite-pending}
+:::
+
+:::
+
+::: {.callout-note collapse="true" title="BibTeX"}
+```{.bibtex}
+@software{Aicher2026NAKORibcageSSM,
+  author    = {Aicher, Anatol and Graf, Robert and Kirschke, Jan and Frauenfelder, Thomas and
+               Ensle, Falko and Menze, Bjoern and Decker, Josua and Kr{\"o}ncke, Thomas and
+               Haubold, Johannes and Ringhof, Steffen and Bamberg, Fabian and Schmidt, Carsten Oliver and
+               Wielp{\"u}tz, Mark and Leitzmann, Michael and Willich, Stefan N. and Keil, Thomas and
+               Niendorf, Thoralf and Pischon, Tobias and Schlett, Christopher and M{\"o}ller, Hendrik},
+  title     = {{NAKO} Human Ribcage Statistical Shape Model},
+  version   = {1.1.0},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.22230693},
+  url       = {https://github.com/AnatolAicher/NAKO-Ribcage-SSM}
+}
+```
+:::
 
 ::: {.run-info}
 ```{python}

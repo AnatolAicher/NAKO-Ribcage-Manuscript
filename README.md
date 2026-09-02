@@ -12,11 +12,22 @@ Quarto sources of the manuscript, the supplement and the companion website for
 
 ## Cite this work
 
-Shape model and code, archived on Zenodo (all versions: [10.5281/zenodo.22230693](https://doi.org/10.5281/zenodo.22230693); version 1.1.0: [10.5281/zenodo.22237859](https://doi.org/10.5281/zenodo.22237859)):
+**Zenodo (model data)**
 
 ```text
-Aicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Kröncke T, Haubold J, Ringhof S, Bamberg F, Schmidt CO, Wielpütz M, Leitzmann M, Willich SN, Keil T, Niendorf T, Pischon T, Schlett C, Möller H. NAKO Human Ribcage Statistical Shape Model (version 1.1.0). Zenodo; 2026. https://doi.org/10.5281/zenodo.22230693
+Aicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Kröncke T, Haubold J, Ringhof S, Bamberg F, Schmidt CO, Wielpütz M, Leitzmann M, Willich SN, Keil T, Niendorf T, Pischon T, Schlett C, Möller H. NAKO Human Ribcage Statistical Shape Model (version 1.1.0) [data set]. Zenodo; 2026. https://doi.org/10.5281/zenodo.22230693
 ```
+
+**GitHub (software)**
+
+```text
+Aicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Kröncke T, Haubold J, Ringhof S, Bamberg F, Schmidt CO, Wielpütz M, Leitzmann M, Willich SN, Keil T, Niendorf T, Pischon T, Schlett C, Möller H. NAKO Human Ribcage Statistical Shape Model (version 1.1.0) [software]. GitHub; 2026. https://github.com/AnatolAicher/NAKO-Ribcage-SSM
+```
+
+**Preprint:** tbd · **Peer-reviewed article:** tbd
+
+<details>
+<summary>BibTeX</summary>
 
 ```bibtex
 @software{Aicher2026NAKORibcageSSM,
@@ -34,9 +45,7 @@ Aicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Krönc
 }
 ```
 
-- *Preprint (medRxiv): forthcoming; the DOI will appear here once the preprint is posted.*
-- *Peer-reviewed article: not yet published.*
-
+</details>
 
 ## Layout
 
