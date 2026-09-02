@@ -29,9 +29,18 @@ iframe {
   border-top: 1px solid #dee2e6;
 }
 
-.cite-box img {
-  height: 20px;
-  margin-bottom: 0.4rem;
+.cite-box dl {
+  margin: 0.5rem 0;
+}
+
+.cite-box dt {
+  font-weight: 600;
+  margin-top: 0.4rem;
+}
+
+.cite-box dd {
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .cite-grid {
