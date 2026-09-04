@@ -69,7 +69,9 @@ Aicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Krönc
 :::
 
 ::: {.g-col-12 .g-col-md-9}
-[tbd]{.cite-pending}
+```{.default}
+Aicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Kröncke T, Haubold J, Ringhof S, Bamberg F, Schmidt CO, Wielpütz M, Leitzmann M, Willich SN, Keil T, Niendorf T, Pischon T, Schlett C, Möller H. How Sex, Age, Adiposity, and Smoking Shape the Human Rib Cage: Evidence from 26,275 Whole-Body MRIs across the German National Cohort (NAKO). medRxiv [Preprint]. 2026. https://doi.org/10.64898/2026.09.01.26361964
+```
 :::
 
 ::: {.g-col-12 .g-col-md-3}
@@ -96,6 +98,21 @@ Aicher A, Graf R, Kirschke J, Frauenfelder T, Ensle F, Menze B, Decker J, Krönc
   publisher = {Zenodo},
   doi       = {10.5281/zenodo.22230693},
   url       = {https://github.com/AnatolAicher/NAKO-Ribcage-SSM}
+}
+
+@article{Aicher2026RibCagePreprint,
+  author    = {Aicher, Anatol and Graf, Robert and Kirschke, Jan and Frauenfelder, Thomas and
+               Ensle, Falko and Menze, Bjoern and Decker, Josua and Kr{\"o}ncke, Thomas and
+               Haubold, Johannes and Ringhof, Steffen and Bamberg, Fabian and Schmidt, Carsten Oliver and
+               Wielp{\"u}tz, Mark and Leitzmann, Michael and Willich, Stefan N. and Keil, Thomas and
+               Niendorf, Thoralf and Pischon, Tobias and Schlett, Christopher and M{\"o}ller, Hendrik},
+  title     = {How Sex, Age, Adiposity, and Smoking Shape the Human Rib Cage: Evidence from
+               26,275 Whole-Body {MRIs} across the German National Cohort ({NAKO})},
+  journal   = {medRxiv},
+  year      = {2026},
+  doi       = {10.64898/2026.09.01.26361964},
+  url       = {https://doi.org/10.64898/2026.09.01.26361964},
+  note      = {Preprint}
 }
 ```
 :::
